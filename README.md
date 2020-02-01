@@ -13,9 +13,15 @@ Ypma et al. suggest calculating spatial, genetic, and temporal dissimilarities b
 
 ### Spatial dissimilarity
 
-![S. aureus hierarchical cluster](pngs/s_aureus_1.png "Huasdasd")
+![Network graph of units](pngs/units_plot.png "Network graph of units")
+
+![Minimum spanning tree of units](pngs/units_plot2.png "Minimum spanning tree of units")
 
 ### Genetic dissimilarity
+
+![S. aureus hierarchical cluster](pngs/s_aureus_1.png "S. aureus hierarchical cluster")
+
+![S. aureus minimum spanning tree](pngs/s_aureus_2.png "S. aureus minimum spanning tree")
 
 ### Temporal dissimilarity
 
