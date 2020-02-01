@@ -15,7 +15,7 @@ Ypma et al. suggest calculating spatial, genetic, and temporal dissimilarities b
 
 ![Network graph of units](pngs/units_plot.png "Network graph of units")
 
-From a graph of units a matrix of 'effective distances' (see package `NetOrigin`) is calculated (see function `graph2effdist`), which serves to estimate a minimum spanning tree between them. The number of nodes between nodes represents the spatial dissimilarity:
+From a graph of units a matrix of 'effective distances' (see package `NetOrigin`) is calculated (see function `graph2effdist`), which serves to estimate a minimum spanning tree between them. The number of nodes between nodes represents the spatial dissimilarities:
 
 ![Minimum spanning tree of units](pngs/units_plot2.png "Minimum spanning tree of units")
 
@@ -23,7 +23,8 @@ From a graph of units a matrix of 'effective distances' (see package `NetOrigin`
 
 ![S. aureus hierarchical cluster](pngs/s_aureus_1.png "S. aureus hierarchical cluster")
 
-For the 'genetic' dissimilarity susceptibility data were chosen for convenience (as genetic typing is not widespread enough yet for most laboratories). Nevertheless the principle applies to genetic typing data as well (e.g. whole genome MLST), although the dissimilarities have to be calculated slightly differently (I would suggest `cluster::daisy` with metric `gower` to this end). Be it as it may, the first step is the creation of a distance matrix (visualized with the hierarchical clustering above), which is then translated into a minimum spanning tree; as above, the number of nodes between nodes then represents the genetic dissimilarity.
+For the 'genetic' dissimilarity susceptibility data were chosen for convenience (as genetic typing is not widespread enough yet for most laboratories). Nevertheless, the principle applies, although  for e.g. whole genome MLST the dissimilarities would have to be calculated slightly differently (I would suggest `cluster::daisy` with metric `gower` to this end). 
+Be it as it may, the first step is the creation of a distance matrix (visualized with the hierarchical clustering above), which is then translated into a minimum spanning tree; as with the spatial dimension above, the number of nodes between nodes then represents the genetic dissimilarities.
 
 ![S. aureus minimum spanning tree](pngs/s_aureus_2.png "S. aureus minimum spanning tree")
 
