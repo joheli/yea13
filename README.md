@@ -15,15 +15,29 @@ Ypma et al. suggest calculating spatial, genetic, and temporal dissimilarities b
 
 ![Network graph of units](pngs/units_plot.png "Network graph of units")
 
+From a graph of units a matrix of 'effective distances' (see package `NetOrigin`) is calculated (see function `graph2effdist`), which serves to estimate a minimum spanning tree between them. The number of nodes between nodes represents the spatial dissimilarity:
+
 ![Minimum spanning tree of units](pngs/units_plot2.png "Minimum spanning tree of units")
 
 ### Genetic dissimilarity
 
 ![S. aureus hierarchical cluster](pngs/s_aureus_1.png "S. aureus hierarchical cluster")
 
+For the 'genetic' dissimilarity susceptibility data were chosen for convenience (as genetic typing is not widespread enough yet for most laboratories). Nevertheless the principle applies to genetic typing data as well (e.g. whole genome MLST), although the dissimilarities have to be calculated slightly differently (I would suggest `cluster::daisy` with metric `gower` to this end). Be it as it may, the first step is the creation of a distance matrix (visualized with the hierarchical clustering above), which is then translated into a minimum spanning tree; as above, the number of nodes between nodes then represents the genetic dissimilarity.
+
 ![S. aureus minimum spanning tree](pngs/s_aureus_2.png "S. aureus minimum spanning tree")
 
 ### Temporal dissimilarity
+
+Compared to above dissimilarities the temporal one is fairly easy to calculate; nevertheless, the steps are similar: first, a distance matrix is generated, from which a minimum spanning tree (a linear one without branches in this case) is calculated
+
+### Combining all to generate the 'Ypma dissimilarity'
+
+Multiplication of above dissimilarities creates a matrix of 'Ypma dissimilarities' which are evaluated for the presence of significantly low distance by means of permutation.
+
+## Let's start already
+
+This package is very much in development and probably full of bugs, so please use it at your own risk. Nevertheless, if you're eager to start, install this package and start with function `cluster.search`. Read the manual by entering `?cluster.search` into the R-console.
 
 ### References
 
