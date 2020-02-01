@@ -23,7 +23,7 @@ From a graph of units a matrix of 'effective distances' (see package `NetOrigin`
 
 ![S. aureus hierarchical cluster](pngs/s_aureus_1.png "S. aureus hierarchical cluster")
 
-For the 'genetic' dissimilarity susceptibility data were chosen for convenience (as genetic typing is not widespread enough yet for most laboratories). Nevertheless, the principle applies, although  for e.g. whole genome MLST the dissimilarities would have to be calculated slightly differently (I would suggest `cluster::daisy` with metric `gower` to this end). 
+For the 'genetic' dissimilarity susceptibility data were chosen for convenience, as genetic typing is not widespread enough yet for most laboratories. Nevertheless, the principle applies, although  for e.g. whole genome MLST the dissimilarities would have to be calculated slightly differently (I would suggest `cluster::daisy` with metric `gower` to this end). 
 Be it as it may, the first step is the creation of a distance matrix (visualized with the hierarchical clustering above), which is then translated into a minimum spanning tree; as with the spatial dimension above, the number of nodes between nodes then represents the genetic dissimilarities.
 
 ![S. aureus minimum spanning tree](pngs/s_aureus_2.png "S. aureus minimum spanning tree")
