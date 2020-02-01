@@ -9,7 +9,7 @@ Data provided represent real surveillance data from a microbiology lab with ids,
 
 ## The principle
 
-Ypma et al. suggest calculating spatial, genetic, and temporal dissimilarities between occurrences and then multiplying them. The newly generated 'Ypma dissimilarity' is then used to search for clusters, i.e. significantly linked cases.
+Ypma et al. suggest calculating spatial, genetic, and temporal dissimilarities between occurrences and then multiplying them. The thus generated 'Ypma dissimilarity' is then used to search for clusters, i.e. cases with unusually low dissimilarity between them.
 
 ### Spatial dissimilarity
 
