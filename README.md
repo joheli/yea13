@@ -13,6 +13,8 @@ Ypma et al. suggest calculating spatial, genetic, and temporal dissimilarities b
 
 ### Spatial dissimilarity
 
+![S. aureus hierarchical cluster](pngs/s_aureus_1.png "Huasdasd")
+
 ### Genetic dissimilarity
 
 ### Temporal dissimilarity
