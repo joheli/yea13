@@ -1,15 +1,15 @@
 # yea13
-Applies the algorithm described by [**Y**pma **e**t **a**l. 20**13**](https://www.ncbi.nlm.nih.gov/pubmed/23922835) to identify putative clusters in a surveillance dataset.
+This R-package attempts to implement the algorithm by [**Y**pma **e**t **a**l. 20**13**](https://www.ncbi.nlm.nih.gov/pubmed/23922835) with the goal of identifying putative clusters in surveillance datasets.
 
 ## Installation
 Make sure you have [R](https://www.r-project.org/) and package [devtools](https://cran.r-project.org/web/packages/devtools/index.html) installed. Then, type `devtools::install_github("joheli/yea13")` to install package ‘yea13’.
 
 ## Data
-Data provided represent real surveillance data from a microbiology lab with ids, dates of requests, and unit names altered on data protection grounds.
+Data provided (e.g. data frame ‘s_aureus’ and others) represent real surveillance data from a microbiology lab serving a hospital trust with ids, dates of requests, and unit names altered on data protection grounds.
 
 ## The principle
 
-Ypma et al. suggest calculating spatial, genetic, and temporal dissimilarities between occurrences and then multiplying them. The thus generated 'Ypma dissimilarity' is then used to search for clusters, i.e. cases with unusually low dissimilarities between them.
+Ypma et al. suggest calculating spatial, genetic, and temporal dissimilarities between occurrences and then multiplying them. The thus generated dissimilarity (henceforth referred to as 'Ypma dissimilarity') is then used to search for clusters, i.e. cases with unusually low dissimilarities between them.
 
 ### Spatial dissimilarity
 
