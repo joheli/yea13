@@ -15,7 +15,7 @@ Ypma et al. suggest calculating spatial, genetic, and temporal dissimilarities b
 
 ![Network graph of units](pngs/units_plot.png "Network graph of units")
 
-From a graph of units a matrix of 'effective distances' (see package `NetOrigin`) is calculated (see function `graph2effdist`), which serves to estimate a minimum spanning tree between them. The number of nodes between nodes represents the spatial dissimilarities:
+From a graph of units (wards) a matrix of 'effective distances' is calculated (see function `graph2effdist`, which uses package `NetOrigin`). The matrix is then used to create a minimum spanning tree between units. Finally. the number of nodes between nodes in the minimum spanning tree represent the spatial dissimilarities:
 
 ![Minimum spanning tree of units](pngs/units_plot2.png "Minimum spanning tree of units")
 
@@ -23,18 +23,18 @@ From a graph of units a matrix of 'effective distances' (see package `NetOrigin`
 
 ![S. aureus hierarchical cluster](pngs/s_aureus_1.png "S. aureus hierarchical cluster")
 
-For the 'genetic' dissimilarity susceptibility data were chosen for convenience, as genetic typing is not widespread enough yet for most laboratories. Nevertheless, the principle applies, although  for e.g. whole genome MLST the dissimilarities would have to be calculated slightly differently (I would suggest `cluster::daisy` with metric `gower` to this end). 
-Be it as it may, the first step is the creation of a distance matrix (visualized with the hierarchical clustering above), which is then translated into a minimum spanning tree; as with the spatial dimension above, the number of nodes between nodes then represents the genetic dissimilarities.
+For the 'genetic' dissimilarity susceptibility data were chosen out of convenience, as genetic typing is not widespread enough yet for most laboratories. Nevertheless, the process is similar regardless of what data are used to represent 'type', although  for e.g. whole genome MLST the dissimilarities would have to be calculated slightly differently than for susceptibility data (I would suggest `cluster::daisy` with metric `gower` to this end). 
+Be it as it may, the first step is the creation of a distance matrix (visualized by the hierarchical clustering above), which is then translated into a minimum spanning tree; as with the spatial dimension above, the number of nodes between nodes then represent the genetic dissimilarities.
 
 ![S. aureus minimum spanning tree](pngs/s_aureus_2.png "S. aureus minimum spanning tree")
 
 ### Temporal dissimilarity
 
-Compared to above dissimilarities the temporal one is fairly easy to calculate; nevertheless, the steps are similar: first, a distance matrix is generated, from which a minimum spanning tree (a linear one without branches in this case) is calculated
+Compared to above dissimilarities the temporal one is fairly easy to calculate; the steps are similar: first, a distance matrix is generated, from which a minimum spanning tree (a linear one without branches in this case) is calculated. The rest is as above!
 
 ### Combining all to generate the 'Ypma dissimilarity'
 
-Multiplication of above dissimilarities creates a matrix of 'Ypma dissimilarities' which are evaluated for the presence of significantly low distance by means of permutation.
+Multiplication of above dissimilarities creates a matrix of 'Ypma dissimilarities' which are evaluated for the presence of significantly low distances by means of permutation.
 
 ## Let's start already
 
