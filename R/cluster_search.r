@@ -26,10 +26,10 @@ cluster.search <- function(d, # data.frame
                            hs,
                            ...) {
   # observed ypma diss
-  d.obs <- ypma.diss(d = d, e = e, tc = tc, ic = ic, uc = uc, p = F, ...)
+  d.obs <- ypma.diss(d = d, e = e, tc = tc, ic = ic, uc = uc, p = FALSE, ...)
 
   # permuted ypma diss
-  d.prm <- ypma.diss(d = d, e = e, tc = tc, ic = ic, uc = uc, p = T, p.n = p.n, ...)
+  d.prm <- ypma.diss(d = d, e = e, tc = tc, ic = ic, uc = uc, p = TRUE, p.n = p.n, ...)
 
   # observed clusters
   cl.obs <- y.clust(yd = d.obs, hs = hs, result = "clusters")
