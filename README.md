@@ -5,7 +5,7 @@ This R-package attempts to implement the algorithm by [**Y**pma **e**t **a**l. 2
 Make sure you have [R](https://www.r-project.org/) and package [devtools](https://cran.r-project.org/web/packages/devtools/index.html) installed. Then, type `devtools::install_github("joheli/yea13")` to install package ‘yea13’.
 
 ## Data
-Surveillance data (`s_aureus`, `k_pneumoniae`, `e_cloacae`) were supplied by a microbiology lab serving a hospital trust. Column names `id`, `time`, and `unit` were altered on data protection grounds. Network data (`units_igraph`) represents a snapshot of connections between units (wards) of said hospital trust with unit names altered as above (see `?units_igraph` for information). Effective distances (`units_effdist`) were calculated from `units_igraph` using function `graph2effdist.r`.
+Surveillance data (`s_aureus`, `k_pneumoniae`, `e_cloacae`) were supplied by a microbiology lab serving a hospital trust. Column names `id`, `time`, and `unit` were altered on data protection grounds. Network data (`units_igraph`) represent a snapshot of connections between units (wards) of said hospital trust with unit names altered as above (see `?units_igraph` for information). Effective distances (`units_effdist`) were calculated from `units_igraph` using function `graph2effdist.r`.
 
 ## The principle
 
@@ -23,7 +23,7 @@ From a graph of units (wards) a matrix of 'effective distances' is calculated (s
 
 ![S. aureus hierarchical cluster](pngs/s_aureus_1.png "S. aureus hierarchical cluster")
 
-For the 'genetic' dissimilarity susceptibility data were chosen in data frames `s_aureus`, `k_pneumoniae`, and `e_cloacae` out of convenience, as genetic typing was not available for the supplying laboratory. Nevertheless, the workup is comparable to genetic data (e.g. DNA sequences), although  for e.g. whole genome multi-locus-sequence-typing (MLST) the dissimilarities would have to be calculated slightly differently than for susceptibility data (I would suggest `cluster::daisy` with metric `gower` to this end). 
+For the 'genetic' dissimilarity susceptibility data (as opposed to data from true genetic typing) were exported into data frames `s_aureus`, `k_pneumoniae`, and `e_cloacae`. This was done out of convenience, as genetic typing was not available for the supplying laboratory. Nevertheless, the workup is comparable to genetic data (e.g. DNA sequences), although for e.g. whole genome multi-locus-sequence-typing (MLST) the dissimilarities would have to be calculated slightly differently than for susceptibility data (I would suggest `cluster::daisy` with metric `gower` to this end). 
 Be it as it may, the first step is the creation of a distance matrix (visualized by the hierarchical clustering above), which is translated into a minimum spanning tree; as with the spatial dimension above, the number of nodes between nodes represent genetic dissimilarities.
 
 ![S. aureus minimum spanning tree](pngs/s_aureus_2.png "S. aureus minimum spanning tree")
