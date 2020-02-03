@@ -8,7 +8,7 @@
 #' @return A square matrix containing Ypma dissimilarities.
 #' @export diss
 
-diss <- function(d, allsteps = F) {
+diss <- function(d, allsteps = FALSE) {
   # check input; accept only "dissimilarity" (from cluster::daisy) and "dist" (from stats::dist)
   if (any(class(d) == "dist")) {
     if (any(class(d) == "dissimilarity")) d <- as.dist(as.matrix(d))
@@ -19,9 +19,9 @@ diss <- function(d, allsteps = F) {
   # convert d to minimum spanning tree
   m <- ape::mst(d)
   # convert mst to undirected graph
-  g <- graph_from_adjacency_matrix(m, mode = "undirected")
+  g <- igraph::graph_from_adjacency_matrix(m, mode = "undirected")
   # number of nodes (i.e. ypma dissimilarity) between nodes
-  y <- distances(g)
+  y <- igraph::distances(g)
 
   # determine level of output
   if (allsteps) {

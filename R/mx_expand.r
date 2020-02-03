@@ -13,7 +13,7 @@
 
 mx.expand <- function(conversion.table,
                       mx,
-                      noise0 = T,
+                      noise0 = TRUE,
                       noise.lo = 0,
                       noise.hi = 0.01,
                       ...) {

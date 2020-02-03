@@ -11,7 +11,7 @@
 #' @export graph2effdist
 
 graph2effdist <- function(g, edge.attribute = NULL) {
-  A <- igraph::as_adjacency_matrix(g, attr = edge.attribute, sparse = F)
+  A <- igraph::as_adjacency_matrix(g, attr = edge.attribute, sparse = FALSE)
   p = A/rowSums(A)
   eff <- eff_dist(p)
   return(eff)
