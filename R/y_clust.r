@@ -40,7 +40,7 @@ y.clust <- function(yd, hs = c(2, 4, 6), result = c("sizes", "clusters")) {
   
   # decide whether sizes (for permuted matrices) or clusters (for actual, non-permuted matrices) are to be returned
   if (r == "sizes") {
-    yc %>% group_by(size) %>% summarize(`minimal max.diss` = min(max.diss))
+    yc %>% dplyr::group_by(size) %>% dplyr::summarize(`minimal max.diss` = min(max.diss))
   } else {
     yc
   }
