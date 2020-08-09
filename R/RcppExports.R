@@ -10,6 +10,6 @@
 #' @return An adjacency matrix belonging to class 'mst'.
 #' @export
 mstC <- function(d) {
-    .Call('_yea13_mstC', PACKAGE = 'yea13', d)
+    .Call(`_yea13_mstC`, d)
 }
 
