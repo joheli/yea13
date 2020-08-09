@@ -4,7 +4,9 @@
 \name{units_effdist}
 \alias{units_effdist}
 \title{Matrix of effective distances between wards.}
-\format{A quadratic matrix with 78 rows and 78 columns.}
+\format{
+A quadratic matrix with 78 rows and 78 columns.
+}
 \usage{
 units_effdist
 }

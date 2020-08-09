@@ -4,8 +4,14 @@
 \alias{mx.expand}
 \title{Expand a square dissimilarity matrix}
 \usage{
-mx.expand(conversion.table, mx, noise0 = T, noise.lo = 0,
-  noise.hi = 0.01, ...)
+mx.expand(
+  conversion.table,
+  mx,
+  noise0 = TRUE,
+  noise.lo = 0,
+  noise.hi = 0.01,
+  ...
+)
 }
 \arguments{
 \item{conversion.table}{A data.frame containting two columns; the first with id labels, the second with the names of rows (= names of columns) in square matrix \code{mx} (see below), to which it refers.}

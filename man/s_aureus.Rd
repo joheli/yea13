@@ -4,7 +4,8 @@
 \name{s_aureus}
 \alias{s_aureus}
 \title{Surveillance dataset of Staphylococcus aureus}
-\format{A data frame with 474 rows and 25 variables:
+\format{
+A data frame with 474 rows and 25 variables:
 \describe{
   \item{id}{strain identifier (generated during data export, not identical to original strain id)}
   \item{time}{time of request (altered by addition of a constant value)}
@@ -31,7 +32,8 @@
   \item{Tetrazyklin}{susceptibility category of antibiotic 'Tetrazyklin' (tetracyline)}
   \item{Tigecyclin}{susceptibility category of antibiotic 'Tigecyclin' (tigecycline)}
   \item{Vancomycin}{susceptibility category of antibiotic 'Vancomycin'}
-}}
+}
+}
 \usage{
 s_aureus
 }

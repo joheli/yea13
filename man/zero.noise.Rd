@@ -4,7 +4,7 @@
 \alias{zero.noise}
 \title{Add random noise to zero values in square matrix}
 \usage{
-zero.noise(x, lo = 0, hi = 0.01, exclude.diag = T)
+zero.noise(x, lo = 0, hi = 0.01, exclude.diag = TRUE)
 }
 \arguments{
 \item{x}{A numerical square matrix.}

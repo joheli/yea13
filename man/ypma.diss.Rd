@@ -4,15 +4,24 @@
 \alias{ypma.diss}
 \title{Calculate Ypma dissimilarities for type, time, and unit}
 \usage{
-ypma.diss(d, e = NULL, tc, uc, ic, dfun = c("dist", "daisy"),
-  dfun.args = list(method = "manhattan"), p = F, p.n = 3)
+ypma.diss(
+  d,
+  e = NULL,
+  tc,
+  uc,
+  ic,
+  dfun = c("dist", "daisy"),
+  dfun.args = list(method = "manhattan"),
+  p = F,
+  p.n = 3
+)
 }
 \arguments{
 \item{d}{A \code{data.frame} containing columns for id, time, unit (e.g. ward) and type (represented by remaining columns).}
 
 \item{e}{A quadratic matrix with identical row and column names representing effective distances of units contained in \code{d}.}
 
-\item{tc}{A character or numeric identifying name or number, respectively, of time column in \code{d}.}
+\item{tc}{A character or numeric identifying name or number, respectively, of id column in \code{d}.}
 
 \item{uc}{A character or numeric identifying name or number, respectively, of unit column in \code{d}.}
 
@@ -23,8 +32,6 @@ ypma.diss(d, e = NULL, tc, uc, ic, dfun = c("dist", "daisy"),
 \item{p}{A logical specifying if permutation is to be performed. Defaults to \code{FALSE}.}
 
 \item{p.n}{An integer specifying number of permutations performed if \code{p} is \code{TRUE}.}
-
-\item{tc}{A character or numeric identifying name or number, respectively, of id column in \code{d}.}
 }
 \value{
 If \code{p} is \code{FALSE} (default) a square matrix containing Ypma dissimilarities between rows in \code{d} (represented by id), and a list with Ypma dissimilarity matrices of random permutations of \code{d} otherwise.

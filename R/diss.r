@@ -17,7 +17,7 @@ diss <- function(d, allsteps = FALSE) {
   }
 
   # convert d to minimum spanning tree
-  m <- ape::mst(d)
+  m <- mstC(d)
   # convert mst to undirected graph
   g <- igraph::graph_from_adjacency_matrix(m, mode = "undirected")
   # number of nodes (i.e. ypma dissimilarity) between nodes

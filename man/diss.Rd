@@ -4,7 +4,7 @@
 \alias{diss}
 \title{Transform distance or dissimilarity object to Ypma dissimilarity}
 \usage{
-diss(d, allsteps = F)
+diss(d, allsteps = FALSE)
 }
 \arguments{
 \item{d}{An object of type type \code{dist} or type \code{dissimilarity}.}

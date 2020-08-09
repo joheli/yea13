@@ -4,7 +4,8 @@
 \name{e_cloacae}
 \alias{e_cloacae}
 \title{Surveillance dataset of Enterobacter cloacae}
-\format{A data frame with 121 rows and 21 variables:
+\format{
+A data frame with 121 rows and 21 variables:
 \describe{
   \item{id}{strain identifier (generated during data export, not identical to original strain id)}
   \item{time}{time of request (altered by addition of a constant value)}
@@ -27,7 +28,8 @@
   \item{Piperacillin}{susceptibility category of antibiotic 'Piperacillin'}
   \item{Piperacillin+Tazobactam}{susceptibility category of antibiotic 'Piperacillin+Tazobactam'}
   \item{Tobramycin}{susceptibility category of antibiotic 'Tobramycin'}
-}}
+}
+}
 \usage{
 e_cloacae
 }

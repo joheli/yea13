@@ -4,7 +4,9 @@
 \name{units_igraph}
 \alias{units_igraph}
 \title{Network graph of 78 units of a hospital trust consisting of three hospitals}
-\format{An \code{\link{igraph}} object}
+\format{
+An \code{\link{igraph}} object
+}
 \usage{
 units_igraph
 }
