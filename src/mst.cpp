@@ -50,16 +50,18 @@ NumericMatrix mx_subset(NumericMatrix& m, IntegerVector& cols) {
   }
   return o;
 }
+
 //' Minimum spanning tree
 //' 
-//' This is a C++ transcript of function \code{mst} in package \code{ape} by Yvonnick Noel, Julien Claude, and Emmanuel Paradis, 
-//' cf. \href(https://github.com/cran/ape/blob/master/R/mst.R){Github archive of mst.R}.
+//' This is a C++ transcript of function \code{ape::mst} by Yvonnick Noel, Julien Claude, and Emmanuel Paradis, cf. \href[https://github.com/cran/ape/blob/master/R/mst.R]{Github archive of mst.R}.
 //'
 //' @param d An object of type 'dist'.
-//' @return An adjacency matrix belonging to class 'mst'.
+//' @param debug logical, specifying if intermediate steps should be printed out.
+//' @return An adjacency matrix belonging to class 'ape::mst'.
 //' @export
+
 // [[Rcpp::export]]
-IntegerMatrix mstC(RObject d) {
+IntegerMatrix mstC(RObject d, bool debug = false) {
   if (!d.inherits("dist")) stop("Please supply a 'dist' object!");
   Function d2m("as.matrix");
   NumericMatrix X = d2m(d);
@@ -70,9 +72,22 @@ IntegerMatrix mstC(RObject d) {
   X.fill_diag(large_value);
   int index_i = 0;
   
+  // debug start>>>
+  if (debug) {
+    Rcout << "\n#### Initialisation ####\n";
+    Rcout << "\noriginal matrix:\n";
+    Rf_PrintValue(d2m(d));
+    Rcout << "\nmatrix X:\n";
+    Rf_PrintValue(X);
+    Rcout << "\nnumber of cols 'n': " << n << "\n";
+    Rcout << "\nmatrix N:\n";
+    Rf_PrintValue(N);
+    Rcout << "\nlarge value large_value: " << large_value << "\n";
+  }
+  // <<<debug end
+  
   for (int i = 0; i < (n - 1); i++) {
     tree.push_back(index_i);
-    // std::cout << index_i << "\n";
     NumericMatrix s = mx_subset(X, tree);
     NumericVector m = col_mins(s);
     IntegerMatrix a0 = sortIndexC(s);
@@ -88,9 +103,31 @@ IntegerMatrix mstC(RObject d) {
     IntegerVector::iterator j;
     
     for (j = tree.begin(); j != tree.end(); j++) {
-      X(index_i, *j) = 1;
-      X(*j, index_i) = 1;
+      X(index_i, *j) = large_value;
+      X(*j, index_i) = large_value;
     }
+    
+    // debug start>>>
+    if (debug) {
+      Rcout << "\n##### Iteration " << i << " #####\n";
+      Rcout << "\nvalue of 'tree':\n";
+      Rf_PrintValue(tree);
+      Rcout << "\nmatrix s:\n";
+      Rf_PrintValue(s);
+      Rcout << "\nvector m:\n";
+      Rf_PrintValue(m);
+      Rcout << "\nmatrix a0:\n";
+      Rf_PrintValue(a0);
+      Rcout << "\nvector a:\n";
+      Rf_PrintValue(a);
+      Rcout << "\nvector b0:\n";
+      Rf_PrintValue(b0);
+      Rcout << "\nmatrix N (after marking links of this iteration):\n";
+      Rf_PrintValue(N);
+      Rcout << "\nmatrix X (after invalidating visited links):\n";
+      Rf_PrintValue(X);
+    }
+    // <<<debug end
   }
   N.attr("dimnames") = X.attr("dimnames");
   N.attr("class") = "mst";
