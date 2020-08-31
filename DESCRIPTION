@@ -1,7 +1,7 @@
 Package: yea13
 Type: Package
 Title: Identification of Putative Clusters in Surveillance Data According to Algorithm by Ypma et al. 2013
-Version: 0.2
+Version: 0.3
 Authors@R: c(person("Elias", "Johannes", email = "joheli@gmx.net", role = c("aut", "cre")), person("Hoehle", "Michael", role = c("aut")))
 Description: See https://www.ncbi.nlm.nih.gov/pubmed/23922835 for the paper by Ypma et al. and the underlying problem.
 License: AGPL 3

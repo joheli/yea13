@@ -9,7 +9,7 @@
 #' @param uc A character or numeric identifying name or number, respectively, of unit column in \code{d}.
 #' @param ic A character or numeric identifying name or number, respectively, of id column in \code{d}.
 #' @param p.n An integer specifying number of permutations performed.
-#' @param hs An integer containing the heights at wich trees from hierarchical clustering should be cut.
+#' @param hs An integer containing the heights at which trees from hierarchical clustering should be cut.
 #' @param ... Arguments passed to \code{\link{ypma.diss}}
 #' @return A \code{data.frame} containing information on putative clusters.
 #' @examples

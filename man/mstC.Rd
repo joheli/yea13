@@ -4,15 +4,16 @@
 \alias{mstC}
 \title{Minimum spanning tree}
 \usage{
-mstC(d)
+mstC(d, debug = FALSE)
 }
 \arguments{
 \item{d}{An object of type 'dist'.}
+
+\item{debug}{logical, specifying if intermediate steps should be printed out.}
 }
 \value{
-An adjacency matrix belonging to class 'mst'.
+An adjacency matrix belonging to class 'ape::mst'.
 }
 \description{
-This is a C++ transcript of function \code{mst} in package \code{ape} by Yvonnick Noel, Julien Claude, and Emmanuel Paradis, 
-cf. \href(https://github.com/cran/ape/blob/master/R/mst.R){Github archive of mst.R}.
+This is a C++ transcript of function \code{ape::mst} by Yvonnick Noel, Julien Claude, and Emmanuel Paradis, cf. \url{https://github.com/cran/ape/blob/master/R/mst.R}.
 }

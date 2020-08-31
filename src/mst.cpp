@@ -53,13 +53,12 @@ NumericMatrix mx_subset(NumericMatrix& m, IntegerVector& cols) {
 
 //' Minimum spanning tree
 //' 
-//' This is a C++ transcript of function \code{ape::mst} by Yvonnick Noel, Julien Claude, and Emmanuel Paradis, cf. \href[https://github.com/cran/ape/blob/master/R/mst.R]{Github archive of mst.R}.
+//' This is a C++ transcript of function \code{ape::mst} by Yvonnick Noel, Julien Claude, and Emmanuel Paradis, cf. \url{https://github.com/cran/ape/blob/master/R/mst.R}.
 //'
 //' @param d An object of type 'dist'.
 //' @param debug logical, specifying if intermediate steps should be printed out.
 //' @return An adjacency matrix belonging to class 'ape::mst'.
 //' @export
-
 // [[Rcpp::export]]
 IntegerMatrix mstC(RObject d, bool debug = false) {
   if (!d.inherits("dist")) stop("Please supply a 'dist' object!");

@@ -6,19 +6,20 @@
 using namespace Rcpp;
 
 // mstC
-IntegerMatrix mstC(RObject d);
-RcppExport SEXP _yea13_mstC(SEXP dSEXP) {
+IntegerMatrix mstC(RObject d, bool debug);
+RcppExport SEXP _yea13_mstC(SEXP dSEXP, SEXP debugSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< RObject >::type d(dSEXP);
-    rcpp_result_gen = Rcpp::wrap(mstC(d));
+    Rcpp::traits::input_parameter< bool >::type debug(debugSEXP);
+    rcpp_result_gen = Rcpp::wrap(mstC(d, debug));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_yea13_mstC", (DL_FUNC) &_yea13_mstC, 1},
+    {"_yea13_mstC", (DL_FUNC) &_yea13_mstC, 2},
     {NULL, NULL, 0}
 };
 

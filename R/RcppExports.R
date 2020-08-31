@@ -3,13 +3,13 @@
 
 #' Minimum spanning tree
 #' 
-#' This is a C++ transcript of function \code{mst} in package \code{ape} by Yvonnick Noel, Julien Claude, and Emmanuel Paradis, 
-#' cf. \href(https://github.com/cran/ape/blob/master/R/mst.R){Github archive of mst.R}.
+#' This is a C++ transcript of function \code{ape::mst} by Yvonnick Noel, Julien Claude, and Emmanuel Paradis, cf. \url{https://github.com/cran/ape/blob/master/R/mst.R}.
 #'
 #' @param d An object of type 'dist'.
-#' @return An adjacency matrix belonging to class 'mst'.
+#' @param debug logical, specifying if intermediate steps should be printed out.
+#' @return An adjacency matrix belonging to class 'ape::mst'.
 #' @export
-mstC <- function(d) {
-    .Call(`_yea13_mstC`, d)
+mstC <- function(d, debug = FALSE) {
+    .Call(`_yea13_mstC`, d, debug)
 }
 
