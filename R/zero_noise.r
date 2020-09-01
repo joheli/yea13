@@ -10,7 +10,7 @@
 #' @export
 
 zero.noise <- function(x, lo = 0, hi = 0.01, exclude.diag = TRUE) {
-  if (class(x) != "matrix") stop("Please supply an argument of class 'matrix'.")
+  if (!inherits(x, "matrix")) stop("Please supply an argument of class 'matrix'.")
   l <- length(x[x == 0])
   x[x == 0] <- runif(l, lo, hi)
   if (exclude.diag) diag(x) <- 0

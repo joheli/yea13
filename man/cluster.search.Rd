@@ -19,7 +19,7 @@ cluster.search(d, e, tc, ic, uc, p.n, hs, ...)
 
 \item{p.n}{An integer specifying number of permutations performed.}
 
-\item{hs}{An integer containing the heights at wich trees from hierarchical clustering should be cut.}
+\item{hs}{An integer containing the heights at which trees from hierarchical clustering should be cut.}
 
 \item{...}{Arguments passed to \code{\link{ypma.diss}}}
 }
