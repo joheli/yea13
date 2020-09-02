@@ -13,7 +13,8 @@ ypma.diss(
   dfun = c("dist", "daisy"),
   dfun.args = list(method = "manhattan"),
   p = F,
-  p.n = 3
+  p.n = 3,
+  n.cores = parallel::detectCores()
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ ypma.diss(
 \item{p}{A logical specifying if permutation is to be performed. Defaults to \code{FALSE}.}
 
 \item{p.n}{An integer specifying number of permutations performed if \code{p} is \code{TRUE}.}
+
+\item{n.cores}{An integer specifying the number of cores used for permutations. Defaults to maximum number of cores (as per \code{parallel::detectCores()}).}
 }
 \value{
 If \code{p} is \code{FALSE} (default) a square matrix containing Ypma dissimilarities between rows in \code{d} (represented by id), and a list with Ypma dissimilarity matrices of random permutations of \code{d} otherwise.

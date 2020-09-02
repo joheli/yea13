@@ -12,6 +12,7 @@
 #' @param dfun.args A list specifying arguments passed to \code{dfun}.
 #' @param p A logical specifying if permutation is to be performed. Defaults to \code{FALSE}.
 #' @param p.n An integer specifying number of permutations performed if \code{p} is \code{TRUE}.
+#' @param n.cores An integer specifying the number of cores used for permutations. Defaults to maximum number of cores (as per \code{parallel::detectCores()}).
 #' @return If \code{p} is \code{FALSE} (default) a square matrix containing Ypma dissimilarities between rows in \code{d} (represented by id), and a list with Ypma dissimilarity matrices of random permutations of \code{d} otherwise.
 #' @export ypma.diss
 
@@ -23,7 +24,8 @@ ypma.diss <- function(d, # species data.frame with only one species and only one
                    dfun = c("dist", "daisy"), # dissimilarity function
                    dfun.args = list(method = "manhattan"), # arguments passed to dissimilarity function regarding type
                    p = F, # permute or not
-                   p.n = 3) {
+                   p.n = 3,
+                   n.cores = parallel::detectCores()) {
   dfun <- match.arg(dfun)
   
   # convert tc, uc, ic to numeric, if necessary
@@ -85,7 +87,7 @@ ypma.diss <- function(d, # species data.frame with only one species and only one
   
   # Prepare return
   if (p) {
-    lapply(1:prmx.n, y)
+    pbapply::pblapply(1:prmx.n, y, cl = n.cores)
   } else {
     y()
   }

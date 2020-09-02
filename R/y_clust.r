@@ -31,7 +31,8 @@ y.clust <- function(yd, hs = c(2, 4, 6), result = c("sizes", "clusters")) {
   ycf <- function(y) Reduce(rbind, lapply(hs, function(x) cl(y, h = x)))
   
   # if 'yd' is a list of matrices, combine result of 'ycf'
-  if (class(yd) == "list") {
+  # if (class(yd) == "list") {
+  if (inherits(yd, "list")) {
     yc <- Reduce(rbind, lapply(yd, ycf))
   } else {
     yc <- ycf(yd)
