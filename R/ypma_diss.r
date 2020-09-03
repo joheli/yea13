@@ -87,8 +87,24 @@ ypma.diss <- function(d, # species data.frame with only one species and only one
   
   # Prepare return
   if (p) {
-    pbapply::pblapply(1:prmx.n, y, cl = n.cores)
+    # pbapply adds a progress bar and allows multicore execution
+    # implementation differs by operating system, which is why a helper function 'prl' is introduced:
+    prl <- function(cl) pbapply::pblapply(1:prmx.n, y, cl = cl)
+    # Implement according to operating system, 
+    # see https://github.com/psolymos/the-road-to-progress/blob/master/example.R
+    ##  on Windows:
+    if (grepl("windows", .Platform$OS.type, ignore.case = T)) {
+      cl <- parallel::makeCluster(n.cores)
+      result <- prl(cl = cl)
+      parallel::stopCluster(cl)
+    } else {
+    ##  on other os 'cl' can be an integer:
+      result <- prl(cl = n.cores)
+    }
   } else {
-    y()
+    result <- y()
   }
+  
+  # Return result
+  return(result)
 }

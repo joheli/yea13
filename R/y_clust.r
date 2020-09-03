@@ -15,7 +15,6 @@ y.clust <- function(yd, hs = c(2, 4, 6), result = c("sizes", "clusters")) {
   # function 'cl' takes a square matrix and converts it into a tree (using `hclust`), which is then cut at 
   # height 'h' - finally clusters are returned in a data.frame
   
-  # TODO repair function, creates error: `summarise()` ungrouping output (override with `.groups` argument) ####
   cl <- function(d0, h) {  
     y.d <- as.dist(d0)
     y.h <- hclust(y.d)

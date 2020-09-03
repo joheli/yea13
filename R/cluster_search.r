@@ -39,7 +39,7 @@ cluster.search <- function(d, # data.frame
 
   # filtering of non-significant clusters
   cl.sig <- cl.obs %>%
-    left_join(cl.prm) %>%
+    left_join(cl.prm, by = "size") %>%
     mutate(significant = max.diss < `minimal max.diss`) %>%
     filter(significant) %>% select(-significant)
 
