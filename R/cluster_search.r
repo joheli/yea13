@@ -25,9 +25,15 @@ cluster.search <- function(d, # data.frame
                            p.n,
                            hs,
                            ...) {
+  # Welcome message
+  cat("Cluster search initiated - processing data ...")
+  
   # observed ypma diss
   d.obs <- ypma.diss(d = d, e = e, tc = tc, ic = ic, uc = uc, p = FALSE, ...)
 
+  # message
+  cat("\r") # this resets cursor to beginning of line.
+  
   # permuted ypma diss
   d.prm <- ypma.diss(d = d, e = e, tc = tc, ic = ic, uc = uc, p = TRUE, p.n = p.n, ...)
 

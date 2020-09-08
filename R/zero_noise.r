@@ -11,6 +11,7 @@
 
 zero.noise <- function(x, lo = 0, hi = 0.01, exclude.diag = TRUE) {
   if (!inherits(x, "matrix")) stop("Please supply an argument of class 'matrix'.")
+  if (nrow(x) != ncol(x)) stop("'x' has to be a square matrix (i.e. no. of columns have to equal no. of rows).")
   l <- length(x[x == 0])
   x[x == 0] <- runif(l, lo, hi)
   if (exclude.diag) diag(x) <- 0
