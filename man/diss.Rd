@@ -16,5 +16,5 @@ A square matrix containing Ypma dissimilarities.
 }
 \description{
 This function transforms objects of type \code{dist} (output from \code{stats::dist})
-or \code{dissimilarity} (output from \code{cluster::daisy} into an Ypma dissimilarity matrix.
+or \code{dissimilarity} (output from \code{cluster::daisy}) into an Ypma dissimilarity matrix.
 }
