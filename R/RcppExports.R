@@ -9,7 +9,7 @@
 #' @param debug logical, specifying if intermediate steps should be printed out.
 #' @return An adjacency matrix belonging to class 'ape::mst'.
 #' @export
-mstC <- function(d, debug = FALSE) {
-    .Call(`_yea13_mstC`, d, debug)
+mst <- function(d, debug = FALSE) {
+    .Call(`_yea13_mst`, d, debug)
 }
 

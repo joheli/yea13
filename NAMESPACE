@@ -3,7 +3,7 @@
 export(cluster.search)
 export(diss)
 export(graph2effdist)
-export(mstC)
+export(mst)
 export(mx.expand)
 export(y.clust)
 export(ypma.diss)

@@ -1,7 +1,7 @@
 #' Transform distance or dissimilarity object to Ypma dissimilarity
 #'
 #' This function transforms objects of type \code{dist} (output from \code{stats::dist})
-#' or \code{dissimilarity} (output from \code{cluster::daisy} into an Ypma dissimilarity matrix.
+#' or \code{dissimilarity} (output from \code{cluster::daisy}) into an Ypma dissimilarity matrix.
 #'
 #' @param d An object of type type \code{dist} or type \code{dissimilarity}.
 #' @param allsteps A logical specifying if intermediate steps (minimum spanning tree, graph) are to be returned. Defaults to \code{FALSE}.
@@ -17,7 +17,7 @@ diss <- function(d, allsteps = FALSE) {
   }
 
   # convert d to minimum spanning tree
-  m <- mstC(d)
+  m <- mst(d)
   # convert mst to undirected graph
   g <- igraph::graph_from_adjacency_matrix(m, mode = "undirected")
   # number of nodes (i.e. ypma dissimilarity) between nodes

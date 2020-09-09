@@ -60,7 +60,7 @@ NumericMatrix mx_subset(NumericMatrix& m, IntegerVector& cols) {
 //' @return An adjacency matrix belonging to class 'ape::mst'.
 //' @export
 // [[Rcpp::export]]
-IntegerMatrix mstC(RObject d, bool debug = false) {
+IntegerMatrix mst(RObject d, bool debug = false) {
   if (!d.inherits("dist")) stop("Please supply a 'dist' object!");
   Function d2m("as.matrix");
   NumericMatrix X = d2m(d);

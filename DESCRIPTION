@@ -1,7 +1,7 @@
 Package: yea13
 Type: Package
 Title: Identification of Putative Clusters in Surveillance Data According to Algorithm by Ypma et al. 2013
-Version: 0.5
+Version: 0.5.1
 Authors@R: c(person("Elias", "Johannes", email = "joheli@gmx.net", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-5878-7040")), person("Hoehle", "Michael", role = c("ctb")))
 Description: See https://www.ncbi.nlm.nih.gov/pubmed/23922835 for the paper by Ypma et al. and the underlying problem.
 License: AGPL-3
@@ -11,13 +11,13 @@ Depends:
     dplyr (>= 0.8.3),
     pbapply (>= 1.4-3)
 Imports:
-    ape (>= 5.4-1),
     cluster (>= 2.0.7),
     igraph (>= 1.2.4.1),
     NetOrigin (>= 1.0-3),
     Rcpp (>= 1.0.5)
 LinkingTo: Rcpp
 Suggests:
+    ape (>= 5.4-1),
     tidyr (>= 0.8.1),
     testthat (>= 2.3.2)
 RoxygenNote: 7.1.1
