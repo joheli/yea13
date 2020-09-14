@@ -15,7 +15,7 @@ Ypma et al. suggest calculating spatial, genetic, and temporal dissimilarities b
 
 ![Network graph of units](pngs/units_plot.png "Network graph of units")
 
-From a graph of units (wards) a matrix of 'effective distances' is calculated (see function `graph2effdist`, which uses package `NetOrigin`). The matrix is used to create a minimum spanning tree between units. Finally. the number of nodes between nodes in the minimum spanning tree represent the spatial dissimilarities:
+From a graph of units (wards) a matrix of 'effective distances' is calculated using package `NetOrigin` (also available on [github](https://github.com/jmanitz/NetOrigin)). The matrix is used to create a minimum spanning tree between units. Finally. the number of nodes between nodes in the minimum spanning tree represent the spatial dissimilarities:
 
 ![Minimum spanning tree of units](pngs/units_plot2.png "Minimum spanning tree of units")
 
