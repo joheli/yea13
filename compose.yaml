@@ -1,0 +1,12 @@
+services:
+  yea13:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: yea13:latest
+    container_name: yea13
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./data:/data
+

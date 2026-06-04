@@ -1,8 +1,21 @@
 # yea13
 This R-package attempts to implement the algorithm by [**Y**pma **e**t **a**l. 20**13**](https://www.ncbi.nlm.nih.gov/pubmed/23922835) with the goal of identifying putative clusters in surveillance datasets.
 
+> ⚠️ **Project status: Dormant / Seeking contributors**  
+> This package is not actively maintained. A Python reimplementation is planned. See [Roadmap](#roadmap).
+
+## Quick start (Docker)
+Git clone the repository to your computer using `git clone https://github.com/joheli/yea13.git`. Then change into directory `yea13`and proceed with spinning up the docker image.
+
+```bash
+docker compose run --rm yea13
+# then in R:
+suppressWarnings(library(yea13))
+?cluster.search
+````
+
 ## Installation
-Make sure you have [R](https://www.r-project.org/) and package [devtools](https://cran.r-project.org/web/packages/devtools/index.html) installed. Then, type `devtools::install_github("joheli/yea13")` to install package ‘yea13’.
+Make sure you have [R](https://www.r-project.org/) and package [remotes](https://cran.r-project.org/web/packages/remotes/index.html) installed. Then, type `remotes::install_github("joheli/yea13")` to install package ‘yea13’.
 
 ## Data
 Surveillance data (`s_aureus`, `k_pneumoniae`, `e_cloacae`) were supplied by a microbiology lab serving a hospital trust. Column names `id`, `time`, and `unit` were altered on data protection grounds. Network data (`units_igraph`) represent a snapshot of connections between units (wards) of said hospital trust with unit names altered as above (see `?units_igraph` for information). Effective distances (`units_effdist`) were calculated from `units_igraph` using function `graph2effdist.r`.
@@ -35,6 +48,11 @@ Compared to above dissimilarities the temporal one is fairly easy to calculate; 
 ### Combining spatial, genetic and temporal dissimilarities to 'Ypma dissimilarities'
 
 Multiplication of above dissimilarities creates a matrix of 'Ypma dissimilarities' which are evaluated for the presence of significantly low distances by means of permutation.
+
+## Roadmap
+- [ ] Python reimplementation (NumPy/SciPy permutations, optional Rust via PyO3)
+- [ ] Prospective validation dataset
+- [ ] medRxiv preprint
 
 ## Let's start already
 
