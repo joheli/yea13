@@ -12,7 +12,12 @@ docker compose run --rm yea13
 # then in R:
 suppressWarnings(library(yea13))
 ?cluster.search
-````
+```
+
+## Roadmap
+- [ ] Python reimplementation (NumPy/SciPy permutations, optional Rust via PyO3)
+- [ ] Prospective validation dataset
+- [ ] medRxiv preprint
 
 ## Installation
 Make sure you have [R](https://www.r-project.org/) and package [remotes](https://cran.r-project.org/web/packages/remotes/index.html) installed. Then, type `remotes::install_github("joheli/yea13")` to install package ‘yea13’.
@@ -48,11 +53,6 @@ Compared to above dissimilarities the temporal one is fairly easy to calculate; 
 ### Combining spatial, genetic and temporal dissimilarities to 'Ypma dissimilarities'
 
 Multiplication of above dissimilarities creates a matrix of 'Ypma dissimilarities' which are evaluated for the presence of significantly low distances by means of permutation.
-
-## Roadmap
-- [ ] Python reimplementation (NumPy/SciPy permutations, optional Rust via PyO3)
-- [ ] Prospective validation dataset
-- [ ] medRxiv preprint
 
 ## Let's start already
 
