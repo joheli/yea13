@@ -1,22 +1,20 @@
-FROM rocker/r-ver:4.0.2
+FROM rocker/r-ver:4.5.1
 
-# System dependencies for Rcpp, igraph, curl-based remotes
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    libssl-dev \
     libcurl4-openssl-dev \
-    libxml2-dev \
-    libgit2-dev \
     libglpk-dev \
     libgmp-dev \
+    libssl-dev \
+    libxml2-dev \
     && rm -rf /var/lib/apt/lists/*
 
-RUN Rscript -e "\
-  install.packages('remotes', repos='https://cloud.r-project.org'); \
-  install.packages(c('dplyr','pbapply','cluster','igraph','Rcpp','ape','tidyr','testthat'), \
-    repos='https://cloud.r-project.org'); \
-  install.packages('NetOrigin', repos='https://cloud.r-project.org'); \
-  remotes::install_github('joheli/yea13') \
-"
+RUN Rscript -e "install.packages(c('remotes', 'testthat'), repos='https://cloud.r-project.org')"
+
+WORKDIR /pkg
+COPY . /pkg
+
+RUN Rscript -e "remotes::install_deps('/pkg', dependencies = TRUE, repos='https://cloud.r-project.org')" \
+    && R CMD INSTALL /pkg
 
 CMD ["R"]
