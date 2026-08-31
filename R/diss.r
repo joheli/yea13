@@ -1,37 +1,30 @@
-#' Transform distance or dissimilarity object to Ypma dissimilarity
+#' Transform a distance object to Ypma dissimilarity
 #'
-#' This function transforms objects of type \code{dist} (output from \code{stats::dist})
-#' or \code{dissimilarity} (output from \code{cluster::daisy}) into an Ypma dissimilarity matrix.
+#' Converts a `dist` object (including `cluster::daisy()` dissimilarities) into
+#' minimum-spanning-tree hop distances.
 #'
-#' @param d An object of type type \code{dist} or type \code{dissimilarity}.
-#' @param allsteps A logical specifying if intermediate steps (minimum spanning tree, graph) are to be returned. Defaults to \code{FALSE}.
-#' @return A square matrix containing Ypma dissimilarities.
-#' @export diss
-
+#' @param d An object inheriting from `dist`.
+#' @param allsteps Logical; return the minimum spanning tree and graph as well?
+#' @return A square matrix of Ypma hop dissimilarities, or a list of intermediate
+#'   objects when `allsteps = TRUE`.
+#' @export
 diss <- function(d, allsteps = FALSE) {
-  # check input; accept only "dissimilarity" (from cluster::daisy) and "dist" (from stats::dist)
-  if (any(class(d) == "dist")) {
-    if (any(class(d) == "dissimilarity")) d <- as.dist(as.matrix(d))
-  } else {
-    stop("Please supply an argument of type 'dist' or 'dissimilarity', generated with functions stats::dist or cluster::daisy, respectively!")
+  if (!inherits(d, "dist")) {
+    stop("Please supply an object inheriting from 'dist', such as stats::dist() or cluster::daisy().",
+         call. = FALSE)
   }
+  if (inherits(d, "dissimilarity")) d <- stats::as.dist(as.matrix(d))
+  if (any(!is.finite(d))) stop("Distances must all be finite.", call. = FALSE)
 
-  # convert d to minimum spanning tree
   m <- mst(d)
-  # convert mst to undirected graph
-  g <- igraph::graph_from_adjacency_matrix(m, mode = "undirected")
-  # number of nodes (i.e. ypma dissimilarity) between nodes
-  y <- igraph::distances(g)
+  g <- igraph::graph_from_adjacency_matrix(m, mode = "undirected", diag = FALSE)
+  y <- igraph::distances(g, weights = NA)
 
-  # determine level of output
   if (allsteps) {
-    result <- list(`minimum spanning tree` = m,
-                   `graph` = g,
-                   `Ypma dissimilarity` = y)
+    list(`minimum spanning tree` = m,
+         graph = g,
+         `Ypma dissimilarity` = y)
   } else {
-    result <- y
+    y
   }
-
-  # return output
-  return(result)
 }
