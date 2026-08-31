@@ -1,2 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.github$
+^Dockerfile$
+^compose\.yaml$
+^pngs$
+^test\.R$
