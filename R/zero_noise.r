@@ -1,19 +1,24 @@
-#' Add random noise to zero values in square matrix
+#' Add random noise to zero values in a square matrix
 #'
-#' This is a helper function used by \code{\link{mx.expand}}.
-#'
-#' @param x A numerical square matrix.
-#' @param lo A numeric specifying the lower boundary of to be inserted random values (random values are generated with \code{\link{runif}}).
-#' @param hi A numeric specifying the upper boundary of to be inserted random values.
-#' @param exclude.diag A logical stating whether the diagonal values should be left alone; defaults to TRUE.
-#' @return A numerical square matrix with random noise added to zero values.
+#' @param x A numeric square matrix.
+#' @param lo,hi Numeric lower and upper bounds for uniform random values.
+#' @param exclude.diag Logical; keep diagonal values at zero?
+#' @return A numeric square matrix with noise replacing zero values.
 #' @export
-
 zero.noise <- function(x, lo = 0, hi = 0.01, exclude.diag = TRUE) {
-  if (!inherits(x, "matrix")) stop("Please supply an argument of class 'matrix'.")
-  if (nrow(x) != ncol(x)) stop("'x' has to be a square matrix (i.e. no. of columns have to equal no. of rows).")
-  l <- length(x[x == 0])
-  x[x == 0] <- runif(l, lo, hi)
+  if (!is.matrix(x) || !is.numeric(x)) {
+    stop("Please supply a numeric matrix.", call. = FALSE)
+  }
+  if (nrow(x) != ncol(x)) {
+    stop("'x' has to be a square matrix.", call. = FALSE)
+  }
+  if (length(lo) != 1L || length(hi) != 1L || !is.finite(lo) || !is.finite(hi) || lo > hi) {
+    stop("'lo' and 'hi' must be finite scalars with lo <= hi.", call. = FALSE)
+  }
+  zero <- x == 0
+  if (exclude.diag) diag(zero) <- FALSE
+  n <- sum(zero, na.rm = TRUE)
+  if (n) x[zero & !is.na(zero)] <- stats::runif(n, lo, hi)
   if (exclude.diag) diag(x) <- 0
-  return(x)
+  x
 }
