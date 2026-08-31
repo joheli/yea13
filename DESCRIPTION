@@ -1,23 +1,35 @@
 Package: yea13
 Type: Package
-Title: Identification of Putative Clusters in Surveillance Data According to Algorithm by Ypma et al. 2013
-Version: 0.5.1
-Authors@R: c(person("Elias", "Johannes", email = "joheli@gmx.net", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-5878-7040")), person("Hoehle", "Michael", role = c("ctb")))
-Description: See https://www.ncbi.nlm.nih.gov/pubmed/23922835 for the paper by Ypma et al. and the underlying problem.
+Title: Identification of Putative Clusters in Surveillance Data According to Ypma et al. (2013)
+Version: 0.6.0
+Authors@R: c(
+    person("Elias", "Johannes", email = "joheli@gmx.net", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-5878-7040")),
+    person("Hoehle", "Michael", role = c("ctb"))
+    )
+Description: Implements the approach described by Ypma et al. (2013)
+    <doi:10.1371/journal.pone.0069875> for identifying putative clusters in
+    surveillance data. Spatial, type/genetic, and temporal dissimilarities are
+    transformed to minimum-spanning-tree hop distances and combined into a
+    Ypma dissimilarity, with permutation used to assess unusually tight
+    clusters.
 License: AGPL-3
 Encoding: UTF-8
 LazyData: true
 Depends:
-    dplyr (>= 0.8.3),
-    pbapply (>= 1.4-3)
+    R (>= 4.5.0)
 Imports:
-    cluster (>= 2.0.7),
-    igraph (>= 1.2.4.1),
+    cluster (>= 2.1.8),
+    dplyr (>= 1.1.4),
+    igraph (>= 2.1.0),
     NetOrigin (>= 1.0-3),
-    Rcpp (>= 1.0.5)
-LinkingTo: Rcpp
+    pbapply (>= 1.7.0),
+    Rcpp (>= 1.0.14)
+LinkingTo:
+    Rcpp
 Suggests:
-    ape (>= 5.4-1),
-    tidyr (>= 0.8.1),
-    testthat (>= 2.3.2)
-RoxygenNote: 7.1.1
+    ape (>= 5.8),
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+SystemRequirements: C++11
+RoxygenNote: 7.3.2
