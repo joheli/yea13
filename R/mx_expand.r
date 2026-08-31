@@ -1,39 +1,55 @@
 #' Expand a square dissimilarity matrix
-#' 
-#' This function accepts a conversion table and a square matrix as input to return a new square matrix with changed row and column names referring to id labels in conversion table.
-#' 
-#' @param conversion.table A data.frame containting two columns; the first with id labels, the second with the names of rows (= names of columns) in square matrix \code{mx} (see below), to which it refers.
-#' @param mx A square numerical matrix with equal row and column names that the second column of \code{conversion.table} refers to.
-#' @param noise0 A logical determining whether to add noise to zero values using function \code{zero.noise}. Defaults to TRUE.
-#' @param noise.lo A numerical passed to \code{zero.noise}, specifying the lower boundary of the random value to be inserted. Only used if \code{noise0} is TRUE.
-#' @param noise.hi A numerical passed to \code{zero.noise}, specifying the upper boundary of the random value to be inserted. Only used if \code{noise0} is TRUE.
-#' @param ... Further arguments passed to \code{zero.noise}.
-#' @return A matrix with id in \code{conversion.table} used as row/column names.
-#' @export mx.expand
+#'
+#' This function accepts a conversion table and a square matrix as input to
+#' return a new square matrix with row and column names referring to the ids in
+#' the conversion table.
+#'
+#' @param conversion.table A data.frame containing two columns; the first with
+#'   id labels and the second with row/column names in `mx`.
+#' @param mx A square numeric matrix with identical row and column names.
+#' @param noise0 Logical; add noise to off-diagonal zero values using
+#'   [zero.noise()]? Defaults to `TRUE`.
+#' @param noise.lo,noise.hi Numeric bounds passed to [zero.noise()].
+#' @param ... Further arguments passed to [zero.noise()].
+#' @return A matrix with ids from `conversion.table` as row/column names.
+#' @export
+mx.expand <- function(conversion.table, mx, noise0 = TRUE,
+                      noise.lo = 0, noise.hi = 0.01, ...) {
+  if (!is.data.frame(conversion.table) || ncol(conversion.table) < 2L) {
+    stop("'conversion.table' must be a data.frame with at least two columns.", call. = FALSE)
+  }
+  if (!is.matrix(mx) || !is.numeric(mx) || nrow(mx) != ncol(mx)) {
+    stop("'mx' must be a square numeric matrix.", call. = FALSE)
+  }
+  if (is.null(rownames(mx)) || is.null(colnames(mx)) ||
+      !identical(rownames(mx), colnames(mx))) {
+    stop("'mx' must have identical row and column names.", call. = FALSE)
+  }
 
-mx.expand <- function(conversion.table,
-                      mx,
-                      noise0 = TRUE,
-                      noise.lo = 0,
-                      noise.hi = 0.01,
-                      ...) {
-  id <- as.character(conversion.table[,1]) # as.character used to convert factors to character
-  ix <- as.character(conversion.table[,2]) # as.character used to convert factors to character
-  if (length(!(ix %in% rownames(mx))) > 0) { # if ix occurs without reference in mx
-    # add an entry for 'unknown' in a new matrix
-    mx2 <- matrix(nrow = nrow(mx) + 1, ncol = ncol(mx) + 1)
-    mx2[1:nrow(mx), 1:ncol(mx)] <- mx
-    colnames(mx2) <- c(colnames(mx), "unknown")
-    rownames(mx2) <- c(rownames(mx), "unknown")
-    # set distance for unknown high level
-    mx2[nrow(mx2), ] <- max(mx) * 10
-    mx2[, ncol(mx2)] <- max(mx) * 10
-    ix[!(ix %in% rownames(mx))] <- "unknown"
+  id <- as.character(conversion.table[[1L]])
+  ix <- as.character(conversion.table[[2L]])
+
+  # Previously this condition used length(!(...)) > 0, which is true for every
+  # non-empty conversion table and therefore always added an 'unknown' node.
+  if (any(!ix %in% rownames(mx))) {
+    finite_values <- mx[is.finite(mx)]
+    if (!length(finite_values)) {
+      stop("'mx' must contain at least one finite value.", call. = FALSE)
+    }
+    unknown_distance <- max(finite_values) * 10
+    if (unknown_distance == 0) unknown_distance <- 1
+
+    mx2 <- matrix(unknown_distance, nrow = nrow(mx) + 1L, ncol = ncol(mx) + 1L,
+                  dimnames = list(c(rownames(mx), "unknown"),
+                                  c(colnames(mx), "unknown")))
+    mx2[seq_len(nrow(mx)), seq_len(ncol(mx))] <- mx
+    mx2[nrow(mx2), ncol(mx2)] <- 0
+    ix[!ix %in% rownames(mx)] <- "unknown"
     mx <- mx2
   }
-  me <- mx[ix, ix]
-  rownames(me) <- id
-  colnames(me) <- id
-  if (noise0) me <- zero.noise(me, noise.lo, noise.hi, ...)
-  return(me)
+
+  out <- mx[ix, ix, drop = FALSE]
+  dimnames(out) <- list(id, id)
+  if (noise0) out <- zero.noise(out, noise.lo, noise.hi, ...)
+  out
 }
