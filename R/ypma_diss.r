@@ -1,110 +1,91 @@
 #' Calculate Ypma dissimilarities for type, time, and unit
-#' 
-#' This function takes a \code{data.frame} of one species (or other sensible taxonomic unit) containing
-#' information on time, unit, and type to calculate Ypma dissimilarities between entries.
-#' 
-#' @param d A \code{data.frame} containing columns for id, time, unit (e.g. ward) and type (represented by remaining columns).
-#' @param e A quadratic matrix with identical row and column names representing effective distances of units contained in \code{d}.
-#' @param tc A character or numeric identifying name or number, respectively, of time column in \code{d}.
-#' @param uc A character or numeric identifying name or number, respectively, of unit column in \code{d}.
-#' @param tc A character or numeric identifying name or number, respectively, of id column in \code{d}.
-#' @param dfun A character specifying name of function for distance (dissimilarity) calculation of type columns.
-#' @param dfun.args A list specifying arguments passed to \code{dfun}.
-#' @param p A logical specifying if permutation is to be performed. Defaults to \code{FALSE}.
-#' @param p.n An integer specifying number of permutations performed if \code{p} is \code{TRUE}.
-#' @param n.cores An integer specifying the number of cores used for permutations. Defaults to maximum number of cores (as per \code{parallel::detectCores()}).
-#' @return If \code{p} is \code{FALSE} (default) a square matrix containing Ypma dissimilarities between rows in \code{d} (represented by id), and a list with Ypma dissimilarity matrices of random permutations of \code{d} otherwise.
-#' @export ypma.diss
-
-ypma.diss <- function(d, # species data.frame with only one species and only one id column
-                   e = NULL, # matrix with effective distances of wards (units)
-                   tc, # column representing time
-                   uc, # column representing unit/ward
-                   ic, # column representing id
-                   dfun = c("dist", "daisy"), # dissimilarity function
-                   dfun.args = list(method = "manhattan"), # arguments passed to dissimilarity function regarding type
-                   p = F, # permute or not
-                   p.n = 3,
-                   n.cores = parallel::detectCores()) {
+#'
+#' @param d A data.frame containing id, time, unit and type columns.
+#' @param e A square matrix with identical row and column names representing
+#'   effective distances between units.
+#' @param tc,uc,ic Character names or numeric positions of the time, unit and id
+#'   columns in `d`.
+#' @param dfun Distance function for type columns: `"dist"` or `"daisy"`.
+#' @param dfun.args A list of arguments passed to `dfun`.
+#' @param p Logical; perform permutations?
+#' @param p.n Number of permutations when `p = TRUE`.
+#' @param n.cores Number of cores used for permutations.
+#' @return A Ypma dissimilarity matrix, or a list of matrices for permutations.
+#' @export
+ypma.diss <- function(d, e = NULL, tc, uc, ic,
+                      dfun = c("dist", "daisy"),
+                      dfun.args = list(method = "manhattan"),
+                      p = FALSE, p.n = 3L,
+                      n.cores = parallel::detectCores()) {
   dfun <- match.arg(dfun)
-  
-  # convert tc, uc, ic to numeric, if necessary
-  if (class(tc) == "character") tc <- which(colnames(d) == tc)
-  if (class(uc) == "character") uc <- which(colnames(d) == uc)
-  if (class(ic) == "character") ic <- which(colnames(d) == ic)
-  
-  tmp <- d[, tc]
-  unit <- d[, uc]
-  id <- d[, ic]
-  
-  # Type
-  type0 <- d[, -c(tc, uc, ic)]
-  
-  # Append row ids
-  rownames(type0) <- id
-  
-  # run dissimilarity function specified in 'dfun'
-  type.d <- do.call(dfun, c(list(get("type0")), dfun.args))
-  # extract ypma dissimilarity (number of nodes distance) from graph using function 'diss'
-  type.diss <- diss(type.d)
-  
-  # define function prmx with default behaviour (= does nothing)
-  prmx <- function(x) x
-  # define default number of permutations
-  prmx.n <- 1
-  
-  # if permutation is selected, prmx is set to the function 'sample', while prmx.n is set to p.n (see above)
-  if (p) {
-    prmx <- sample
-    prmx.n <- p.n
+  if (!is.data.frame(d) || nrow(d) < 2L) {
+    stop("'d' must be a data.frame with at least two rows.", call. = FALSE)
   }
-  
-  # function to calculate ypma dissimilarity
-  y <- function(.n = NULL) {
-    # Time
-    # create data.frame containing temporal data (time)
-    tmp0 <- data.frame(as.numeric(prmx(tmp)))
-    # Append row ids
-    rownames(tmp0) <- id
-    # run dist
-    tmp1 <- dist(tmp0)
-    # run dissimilarity function 'diss'
-    time.diss <- diss(tmp1)
-    
-    # Units
-    # create data.frame containing unit data
-    unit0 <- data.frame(id, prmx(unit))
-    # rebind effective distances contained in 'e' to ids in 'unit0'
+  if (is.null(e)) stop("'e' must be supplied.", call. = FALSE)
+
+  resolve_col <- function(x, label) {
+    if (is.character(x)) {
+      if (length(x) != 1L || !x %in% names(d)) {
+        stop(sprintf("'%s' must name exactly one column in 'd'.", label), call. = FALSE)
+      }
+      match(x, names(d))
+    } else {
+      x <- as.integer(x)
+      if (length(x) != 1L || is.na(x) || x < 1L || x > ncol(d)) {
+        stop(sprintf("'%s' is not a valid column position.", label), call. = FALSE)
+      }
+      x
+    }
+  }
+  tc <- resolve_col(tc, "tc")
+  uc <- resolve_col(uc, "uc")
+  ic <- resolve_col(ic, "ic")
+  if (length(unique(c(tc, uc, ic))) != 3L) {
+    stop("'tc', 'uc', and 'ic' must refer to different columns.", call. = FALSE)
+  }
+  if (!is.numeric(p.n) || length(p.n) != 1L || is.na(p.n) || p.n < 1) {
+    stop("'p.n' must be a positive integer.", call. = FALSE)
+  }
+  p.n <- as.integer(p.n)
+  if (is.na(n.cores) || n.cores < 1L) n.cores <- 1L
+  n.cores <- as.integer(n.cores)
+
+  tmp <- d[[tc]]
+  unit <- d[[uc]]
+  id <- as.character(d[[ic]])
+  if (anyNA(id) || anyDuplicated(id)) {
+    stop("The id column must contain unique, non-missing values.", call. = FALSE)
+  }
+
+  type0 <- d[, -c(tc, uc, ic), drop = FALSE]
+  if (!ncol(type0)) stop("'d' must contain at least one type column.", call. = FALSE)
+  rownames(type0) <- id
+
+  distance_fun <- switch(dfun, dist = stats::dist, daisy = cluster::daisy)
+  type.d <- do.call(distance_fun, c(list(type0), dfun.args))
+  type.diss <- diss(type.d)
+
+  calculate <- function(permute = FALSE) {
+    perm <- function(x) if (permute) sample(x) else x
+
+    tmp0 <- data.frame(time = as.numeric(perm(tmp)), row.names = id)
+    time.diss <- diss(stats::dist(tmp0))
+
+    unit0 <- data.frame(id = id, unit = perm(unit), stringsAsFactors = FALSE)
     unit1 <- mx.expand(unit0, e)
-    # run 'dist'
-    unit2 <- dist(unit1)
-    # run dissimilarity function 'diss'
-    unit.diss <- diss(unit2)
-    
-    # calculate Ypma Product for current permutation
+    unit.diss <- diss(stats::dist(unit1))
+
     type.diss * time.diss * unit.diss
   }
-  
-  # Prepare return
-  if (p) {
-    # pbapply adds a progress bar and allows multicore execution
-    # implementation differs by operating system, which is why a helper function 'prl' is introduced:
-    prl <- function(cl) pbapply::pblapply(1:prmx.n, y, cl = cl)
-    # Implement according to operating system, 
-    # see https://github.com/psolymos/the-road-to-progress/blob/master/example.R
-    ##  on Windows:
-    if (grepl("windows", .Platform$OS.type, ignore.case = T)) {
-      cl <- parallel::makeCluster(n.cores)
-      result <- prl(cl = cl)
-      parallel::stopCluster(cl)
-    } else {
-    ##  on other os 'cl' can be an integer:
-      result <- prl(cl = n.cores)
-    }
+
+  if (!p) return(calculate(FALSE))
+
+  worker <- function(i) calculate(TRUE)
+  if (.Platform$OS.type == "windows" && n.cores > 1L) {
+    cl <- parallel::makeCluster(n.cores)
+    on.exit(parallel::stopCluster(cl), add = TRUE)
+    pbapply::pblapply(seq_len(p.n), worker, cl = cl)
   } else {
-    result <- y()
+    pbapply::pblapply(seq_len(p.n), worker, cl = n.cores)
   }
-  
-  # Return result
-  return(result)
 }
