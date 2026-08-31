@@ -1,48 +1,61 @@
-#' Identify putative clusters 
-#' 
-#' This function accepts a Ypma dissimilarity matrix (or a list thereof) and returns information on putative clusters.
-#' 
-#' @param yd A square matrix (Ypma dissimilarity matrix) or a list thereof.
-#' @param hs An integer containing the heights at wich trees from hierarchical clustering should be cut.
-#' @param return An character specifying if sizes of putative clusters with according smallest maximal dissimilarities ('sizes') or clusters with information on ids etc. ('clusters') are to be returned.
-#' @return A square matrix containing Ypma dissimilarities.
-#' @export y.clust
-
+#' Identify putative clusters
+#'
+#' @param yd A square Ypma dissimilarity matrix or a list of such matrices.
+#' @param hs Numeric heights at which hierarchical trees should be cut.
+#' @param result Return cluster-size thresholds (`"sizes"`) or cluster details
+#'   (`"clusters"`).
+#' @return A data.frame describing clusters or permutation thresholds.
+#' @export
 y.clust <- function(yd, hs = c(2, 4, 6), result = c("sizes", "clusters")) {
-  # extract result
-  r <- match.arg(result)
-  
-  # function 'cl' takes a square matrix and converts it into a tree (using `hclust`), which is then cut at 
-  # height 'h' - finally clusters are returned in a data.frame
-  
-  cl <- function(d0, h) {  
-    y.d <- as.dist(d0)
-    y.h <- hclust(y.d)
-    y.ct <- cutree(y.h, h)
-    y.ct2 <- data.frame(id = names(y.ct), cluster.no = y.ct)
-    y.ct2 %>% 
-      group_by(cluster.no) %>% 
-      summarize(size = n(), ids = list(as.character(id)), max.diss = max(d0[as.character(id), as.character(id)])) %>% 
-      filter(size > 1)
+  result <- match.arg(result)
+  if (!length(hs) || any(!is.finite(hs))) {
+    stop("'hs' must contain one or more finite cut heights.", call. = FALSE)
   }
-  
-  # function 'ycf' calls 'cl' for each different cluster height specified in 'hs'
-  ycf <- function(y) Reduce(rbind, lapply(hs, function(x) cl(y, h = x)))
-  
-  # if 'yd' is a list of matrices, combine result of 'ycf'
-  # if (class(yd) == "list") {
-  if (inherits(yd, "list")) {
-    yc <- Reduce(rbind, lapply(yd, ycf))
-  } else {
-    yc <- ycf(yd)
+
+  cl <- function(d0, h) {
+    if (!is.matrix(d0) || nrow(d0) != ncol(d0)) {
+      stop("Each element of 'yd' must be a square matrix.", call. = FALSE)
+    }
+    if (nrow(d0) < 2L) return(data.frame())
+    y.h <- stats::hclust(stats::as.dist(d0))
+    memberships <- stats::cutree(y.h, h = h)
+    groups <- split(names(memberships), memberships)
+    groups <- groups[lengths(groups) > 1L]
+    if (!length(groups)) return(data.frame())
+
+    data.frame(
+      cluster.no = seq_along(groups),
+      size = lengths(groups),
+      ids = I(unname(groups)),
+      max.diss = vapply(groups, function(ids) max(d0[ids, ids, drop = FALSE]), numeric(1)),
+      stringsAsFactors = FALSE
+    )
   }
-  
-  # assign new cluster no.
-  yc$`cluster.no` <- 1:nrow(yc) 
-  
-  # decide whether sizes (for permuted matrices) or clusters (for actual, non-permuted matrices) are to be returned
-  if (r == "sizes") {
-    yc %>% dplyr::group_by(size) %>% dplyr::summarize(`minimal max.diss` = min(max.diss))
+
+  ycf <- function(y) {
+    pieces <- lapply(hs, function(h) cl(y, h))
+    pieces <- pieces[vapply(pieces, nrow, integer(1)) > 0L]
+    if (!length(pieces)) return(data.frame())
+    do.call(rbind, pieces)
+  }
+
+  matrices <- if (is.list(yd)) yd else list(yd)
+  pieces <- lapply(matrices, ycf)
+  pieces <- pieces[vapply(pieces, nrow, integer(1)) > 0L]
+  if (!length(pieces)) {
+    if (result == "sizes") {
+      return(data.frame(size = integer(), `minimal max.diss` = numeric(), check.names = FALSE))
+    }
+    return(data.frame(cluster.no = integer(), size = integer(), ids = I(list()), max.diss = numeric()))
+  }
+
+  yc <- do.call(rbind, pieces)
+  rownames(yc) <- NULL
+  yc$cluster.no <- seq_len(nrow(yc))
+
+  if (result == "sizes") {
+    mins <- tapply(yc$max.diss, yc$size, min)
+    data.frame(size = as.integer(names(mins)), `minimal max.diss` = as.numeric(mins), check.names = FALSE)
   } else {
     yc
   }
