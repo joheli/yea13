@@ -1,36 +1,28 @@
-context("mx.expand")
+test_that("mx.expand returns the requested dimensions and names", {
+  mx <- matrix(c(0, 1, 1, 0), 2, dimnames = list(c("a", "b"), c("a", "b")))
+  conversion <- data.frame(id = c("x1", "x2", "x3"), unit = c("a", "b", "a"))
 
-# test objects
+  out <- mx.expand(conversion, mx, noise0 = FALSE)
 
-## specify seed
-set.seed(123)
-
-## matrix column and row names
-test.ix <- letters[1:4]
-
-## test matrix
-test.mx <- matrix(runif(16), nrow = 4)
-colnames(test.mx) <- test.ix
-rownames(test.mx) <- colnames(test.mx)
-diag(test.mx) <- 0
-
-## test conversion table
-test.ct <- data.frame(id = paste0("x", 1:8), ix = sample(x = test.ix, size = 8, replace = TRUE))
-
-## test outputs
-test.output01 <- mx.expand(conversion.table = test.ct, mx = test.mx, noise0 = TRUE)
-test.output02 <- mx.expand(conversion.table = test.ct, mx = test.mx, noise0 = FALSE)
-
-# run tests using above objects
-test_that("size and diag of output", {
-  expect_equal(nrow(test.output01), nrow(test.ct))
-  expect_equal(ncol(test.output01), nrow(test.ct))
+  expect_equal(dim(out), c(3L, 3L))
+  expect_identical(rownames(out), conversion$id)
+  expect_identical(colnames(out), conversion$id)
+  expect_equal(out[1, 3], 0)
 })
 
-test_that("distance between identical entries in conversion.table are zero", {
-  expect_true(all(as.matrix(dist(test.output[test.ct[, 2] == test.ix[1], ])) == 0))
+test_that("mx.expand only creates an unknown node when needed", {
+  mx <- matrix(c(0, 2, 2, 0), 2, dimnames = list(c("a", "b"), c("a", "b")))
+  known <- data.frame(id = c("x1", "x2"), unit = c("a", "b"))
+  unknown <- data.frame(id = c("x1", "x2"), unit = c("a", "missing"))
+
+  expect_equal(mx.expand(known, mx, noise0 = FALSE),
+               mx, ignore_attr = TRUE)
+  out <- mx.expand(unknown, mx, noise0 = FALSE)
+  expect_equal(diag(out), c(0, 0))
+  expect_gt(out[1, 2], max(mx))
 })
 
-# clean up after yourself
-rm(list = ls(pattern = "^test\\."))
-
+test_that("mx.expand validates its matrix", {
+  expect_error(mx.expand(data.frame(id = "x", unit = "a"), matrix(1:6, 2)),
+               "square numeric matrix")
+})
