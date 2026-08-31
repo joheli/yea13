@@ -20,7 +20,6 @@ Depends:
     R (>= 4.5.0)
 Imports:
     cluster (>= 2.1.8),
-    dplyr (>= 1.1.4),
     igraph (>= 2.1.0),
     NetOrigin (>= 1.0-3),
     pbapply (>= 1.7.0),
