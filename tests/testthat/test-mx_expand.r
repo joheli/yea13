@@ -18,7 +18,7 @@ test_that("mx.expand only creates an unknown node when needed", {
   expect_equal(mx.expand(known, mx, noise0 = FALSE),
                mx, ignore_attr = TRUE)
   out <- mx.expand(unknown, mx, noise0 = FALSE)
-  expect_equal(diag(out), c(0, 0))
+  expect_equal(unname(diag(out)), c(0, 0))
   expect_gt(out[1, 2], max(mx))
 })
 
