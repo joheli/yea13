@@ -7,15 +7,13 @@
 y.clust(yd, hs = c(2, 4, 6), result = c("sizes", "clusters"))
 }
 \arguments{
-\item{yd}{A square matrix (Ypma dissimilarity matrix) or a list thereof.}
-
-\item{hs}{An integer containing the heights at wich trees from hierarchical clustering should be cut.}
-
-\item{return}{An character specifying if sizes of putative clusters with according smallest maximal dissimilarities ('sizes') or clusters with information on ids etc. ('clusters') are to be returned.}
+\item{yd}{A square Ypma dissimilarity matrix or a list of such matrices.}
+\item{hs}{Numeric heights at which hierarchical trees should be cut.}
+\item{result}{Return cluster-size thresholds (\code{"sizes"}) or cluster details (\code{"clusters"}).}
 }
 \value{
-A square matrix containing Ypma dissimilarities.
+A data.frame describing clusters or permutation thresholds.
 }
 \description{
-This function accepts a Ypma dissimilarity matrix (or a list thereof) and returns information on putative clusters.
+Identify putative clusters.
 }
