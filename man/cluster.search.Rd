@@ -7,30 +7,16 @@
 cluster.search(d, e, tc, ic, uc, p.n, hs, ...)
 }
 \arguments{
-\item{d}{A \code{data.frame} containing columns for id, time, unit (e.g. ward) and type (represented by remaining columns).}
-
-\item{e}{A quadratic matrix with identical row and column names representing effective distances of units contained in \code{d}.}
-
-\item{tc}{A character or numeric identifying name or number, respectively, of time column in \code{d}.}
-
-\item{ic}{A character or numeric identifying name or number, respectively, of id column in \code{d}.}
-
-\item{uc}{A character or numeric identifying name or number, respectively, of unit column in \code{d}.}
-
-\item{p.n}{An integer specifying number of permutations performed.}
-
-\item{hs}{An integer containing the heights at which trees from hierarchical clustering should be cut.}
-
-\item{...}{Arguments passed to \code{\link{ypma.diss}}}
+\item{d}{A data.frame containing id, time, unit and type columns.}
+\item{e}{A square effective-distance matrix for units in \code{d}.}
+\item{tc, uc, ic}{Character names or numeric positions of time, unit and id.}
+\item{p.n}{Number of permutations.}
+\item{hs}{Heights at which hierarchical trees are cut.}
+\item{...}{Arguments passed to \code{ypma.diss()}.}
 }
 \value{
-A \code{data.frame} containing information on putative clusters.
+A list of data.frames, one for each significant putative cluster.
 }
 \description{
-This function takes a \code{data.frame} of one species (or other sensible taxonomic unit) containing
-information on time, unit, and type and searches for putative clusters.
-}
-\examples{
-# starts a cluster search with 100 ('p.n' = 100) permutations (careful: takes a long time!)
-test <- cluster.search(s_aureus, e = units_effdist, tc = "time", uc = "unit", ic = "id", p.n = 100, hs = c(2,3,6), dfun = "dist", dfun.args = list(method = "manhattan"))
+Searches surveillance observations for clusters with unusually small combined spatial, type/genetic, and temporal Ypma dissimilarity.
 }
