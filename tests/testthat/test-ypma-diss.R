@@ -15,7 +15,7 @@ test_that("ypma.diss returns a named symmetric matrix", {
   expect_equal(dim(out), c(3L, 3L))
   expect_identical(rownames(out), d$case)
   expect_equal(out, t(out))
-  expect_equal(diag(out), rep(0, 3))
+  expect_equal(unname(diag(out)), rep(0, 3))
 })
 
 test_that("ypma.diss validates column selectors and ids", {
