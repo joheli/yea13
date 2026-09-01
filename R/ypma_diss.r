@@ -9,14 +9,15 @@
 #' @param dfun.args A list of arguments passed to `dfun`.
 #' @param p Logical; perform permutations?
 #' @param p.n Number of permutations when `p = TRUE`.
-#' @param n.cores Number of cores used for permutations.
+#' @param n.cores Number of worker processes used for permutations. Defaults to
+#'   one for portability; set a larger value explicitly for local runs.
 #' @return A Ypma dissimilarity matrix, or a list of matrices for permutations.
 #' @export
 ypma.diss <- function(d, e = NULL, tc, uc, ic,
                       dfun = c("dist", "daisy"),
                       dfun.args = list(method = "manhattan"),
                       p = FALSE, p.n = 3L,
-                      n.cores = parallel::detectCores()) {
+                      n.cores = 1L) {
   dfun <- match.arg(dfun)
   if (!is.data.frame(d) || nrow(d) < 2L) {
     stop("'d' must be a data.frame with at least two rows.", call. = FALSE)
@@ -47,7 +48,9 @@ ypma.diss <- function(d, e = NULL, tc, uc, ic,
     stop("'p.n' must be a positive integer.", call. = FALSE)
   }
   p.n <- as.integer(p.n)
-  if (is.na(n.cores) || n.cores < 1L) n.cores <- 1L
+  if (!is.numeric(n.cores) || length(n.cores) != 1L || is.na(n.cores) || n.cores < 1L) {
+    stop("'n.cores' must be a positive integer.", call. = FALSE)
+  }
   n.cores <- as.integer(n.cores)
 
   tmp <- d[[tc]]
