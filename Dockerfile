@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libglpk-dev \
     libgmp-dev \
     libssl-dev \
+    libuv1-dev \
     libxml2-dev \
     && rm -rf /var/lib/apt/lists/*
 
