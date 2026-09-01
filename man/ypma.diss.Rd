@@ -12,34 +12,24 @@ ypma.diss(
   ic,
   dfun = c("dist", "daisy"),
   dfun.args = list(method = "manhattan"),
-  p = F,
-  p.n = 3,
-  n.cores = parallel::detectCores()
+  p = FALSE,
+  p.n = 3L,
+  n.cores = 1L
 )
 }
 \arguments{
-\item{d}{A \code{data.frame} containing columns for id, time, unit (e.g. ward) and type (represented by remaining columns).}
-
-\item{e}{A quadratic matrix with identical row and column names representing effective distances of units contained in \code{d}.}
-
-\item{tc}{A character or numeric identifying name or number, respectively, of id column in \code{d}.}
-
-\item{uc}{A character or numeric identifying name or number, respectively, of unit column in \code{d}.}
-
-\item{dfun}{A character specifying name of function for distance (dissimilarity) calculation of type columns.}
-
-\item{dfun.args}{A list specifying arguments passed to \code{dfun}.}
-
-\item{p}{A logical specifying if permutation is to be performed. Defaults to \code{FALSE}.}
-
-\item{p.n}{An integer specifying number of permutations performed if \code{p} is \code{TRUE}.}
-
-\item{n.cores}{An integer specifying the number of cores used for permutations. Defaults to maximum number of cores (as per \code{parallel::detectCores()}).}
+\item{d}{A data.frame containing id, time, unit and type columns.}
+\item{e}{A square matrix with identical row and column names representing effective distances between units.}
+\item{tc, uc, ic}{Character names or numeric positions of the time, unit and id columns in \code{d}.}
+\item{dfun}{Distance function for type columns: \code{"dist"} or \code{"daisy"}.}
+\item{dfun.args}{A list of arguments passed to \code{dfun}.}
+\item{p}{Logical; perform permutations?}
+\item{p.n}{Number of permutations when \code{p = TRUE}.}
+\item{n.cores}{Number of worker processes used for permutations. Defaults to one for portability; set a larger value explicitly for local runs.}
 }
 \value{
-If \code{p} is \code{FALSE} (default) a square matrix containing Ypma dissimilarities between rows in \code{d} (represented by id), and a list with Ypma dissimilarity matrices of random permutations of \code{d} otherwise.
+A Ypma dissimilarity matrix, or a list of matrices for permutations.
 }
 \description{
-This function takes a \code{data.frame} of one species (or other sensible taxonomic unit) containing
-information on time, unit, and type to calculate Ypma dissimilarities between entries.
+Calculate Ypma dissimilarities for type, time, and unit.
 }
