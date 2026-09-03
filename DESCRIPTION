@@ -1,7 +1,7 @@
 Package: yea13
 Type: Package
 Title: Identification of Putative Clusters in Surveillance Data According to Ypma et al. (2013)
-Version: 0.6.1
+Version: 0.6.2
 Authors@R: c(
     person("Elias", "Johannes", email = "joheli@gmx.net", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-5878-7040")),

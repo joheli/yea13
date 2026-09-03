@@ -20,7 +20,7 @@ install.packages("remotes")
 remotes::install_local(".", dependencies = TRUE)
 ```
 
-To install the modernization branch directly:
+To install directly from github:
 
 ```r
 remotes::install_github("joheli/yea13@modernize-r45")
@@ -32,7 +32,7 @@ The Docker image uses R 4.5.1 and installs the local checkout, so changes made i
 
 ```bash
 docker compose build --no-cache
-docker compose run --rm yea13
+docker compose run --rm -it yea13
 ```
 
 Then in R:
@@ -41,6 +41,20 @@ Then in R:
 library(yea13)
 ?cluster.search
 ```
+
+### Explore the datasets
+
+You could e.g. do:
+
+```r
+# set seed to make reproducible
+set.seed(3)
+# search clusters within dataset for E. cloacae, specifying a high p-value of 0.4:
+test_ec <- cluster.search(e_cloacae, e = units_effdist, tc = "time", uc = "unit", ic = "id", p.n = 100, hs= c(2,3,6), dfun = "dist", dfun.args = list(method = "manhattan"), p.value = 0.4, n.cores = 1)
+# In the resulting data frame `test_ec` column sig0 labels those clusters that have a very low
+# max. dissimilarity (none) and sig1 labels those clusters that have a p-value below 0.4 (3 clusters).
+```
+
 
 ## Running the tests
 
