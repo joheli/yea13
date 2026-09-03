@@ -23,7 +23,7 @@ remotes::install_local(".", dependencies = TRUE)
 To install directly from github:
 
 ```r
-remotes::install_github("joheli/yea13@modernize-r45")
+remotes::install_github("joheli/yea13")
 ```
 
 ## Quick start with Docker
