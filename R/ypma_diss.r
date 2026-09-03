@@ -53,21 +53,35 @@ ypma.diss <- function(d, e = NULL, tc, uc, ic,
   }
   n.cores <- as.integer(n.cores)
 
+  # tmp holds temporal information
   tmp <- d[[tc]]
+  # unit holds information regarding the place (e.g. ward) - it is just a name
   unit <- d[[uc]]
+  # id is the identifier, e.g. the lab request no.
   id <- as.character(d[[ic]])
   if (anyNA(id) || anyDuplicated(id)) {
     stop("The id column must contain unique, non-missing values.", call. = FALSE)
   }
 
+  # type is more difficult
+  # it could have been stored in a single column e.g. as a json object or similar
+  # here, all remaining columns represent type - dirty, right?
+  # type0 is a data.frame containing all columns except tc, uc, ic
   type0 <- d[, -c(tc, uc, ic), drop = FALSE]
   if (!ncol(type0)) stop("'d' must contain at least one type column.", call. = FALSE)
   rownames(type0) <- id
 
+  # to calculate ypma dissimilarities you first have to calculate the distances
   distance_fun <- switch(dfun, dist = stats::dist, daisy = cluster::daisy)
+  # both stats::dist and cluster::daisy accept data frames with numeric values:
   type.d <- do.call(distance_fun, c(list(type0), dfun.args))
+  # the function `diss` accepts a `dist` object such as returned by `dist` and `daisy`
   type.diss <- diss(type.d)
 
+  # the function `calculate` combines all the dissimilarities to one resulting
+  # dissimilarity - in essence it multiplies the dissimilarities
+  # optionally, it performs permutations - this is important to assess
+  # statistical significance further down the line
   calculate <- function(permute = FALSE) {
     perm <- function(x) if (permute) sample(x) else x
 
@@ -75,15 +89,25 @@ ypma.diss <- function(d, e = NULL, tc, uc, ic,
     time.diss <- diss(stats::dist(tmp0))
 
     unit0 <- data.frame(id = id, unit = perm(unit), stringsAsFactors = FALSE)
+    # mx.expand replaces the unit names by the ids and adds random noise 
+    # where the resulting distances are zero by default - check function zero.noise
     unit1 <- mx.expand(unit0, e)
     unit.diss <- diss(stats::dist(unit1))
 
+    # after calculating ypma dissimilarities for type, time, and unit
+    # multiply them element-wise (i.e. calculate the "Hadamard-product").
+    # This is a critical result that combines information regarding type, time, and place!
     type.diss * time.diss * unit.diss
   }
 
+  # if no permuation is requested, return the combined ypma dissimilarity:
   if (!p) return(calculate(FALSE))
 
+  # if permutation is requested a list of ypma dissimilarities are returned
+  # computation on multiple cores is possible.
+  # `worker` is `calculate` with permutation set to TRUE
   worker <- function(i) calculate(TRUE)
+  # for windows permutations on multiple cores differ from linux
   if (.Platform$OS.type == "windows" && n.cores > 1L) {
     cl <- parallel::makeCluster(n.cores)
     on.exit(parallel::stopCluster(cl), add = TRUE)
