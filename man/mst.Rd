@@ -7,13 +7,13 @@
 mst(d, debug = FALSE)
 }
 \arguments{
-\item{d}{An object of type 'dist'.}
+\item{d}{An object of class `dist` containing finite distances.}
 
-\item{debug}{logical, specifying if intermediate steps should be printed out.}
+\item{debug}{Logical; print intermediate algorithm state.}
 }
 \value{
-An adjacency matrix belonging to class 'ape::mst'.
+A symmetric adjacency matrix of class `mst`.
 }
 \description{
-This is a C++ transcript of function \code{ape::mst} by Yvonnick Noel, Julien Claude, and Emmanuel Paradis, cf. \url{https://github.com/cran/ape/blob/master/R/mst.R}.
+C++ implementation based on `ape::mst`.
 }

@@ -2,19 +2,20 @@
 % Please edit documentation in R/diss.r
 \name{diss}
 \alias{diss}
-\title{Transform distance or dissimilarity object to Ypma dissimilarity}
+\title{Transform a distance object to Ypma dissimilarity}
 \usage{
 diss(d, allsteps = FALSE)
 }
 \arguments{
-\item{d}{An object of type type \code{dist} or type \code{dissimilarity}.}
+\item{d}{An object inheriting from `dist`.}
 
-\item{allsteps}{A logical specifying if intermediate steps (minimum spanning tree, graph) are to be returned. Defaults to \code{FALSE}.}
+\item{allsteps}{Logical; return the minimum spanning tree and graph as well?}
 }
 \value{
-A square matrix containing Ypma dissimilarities.
+A square matrix of Ypma hop dissimilarities, or a list of intermediate
+  objects when `allsteps = TRUE`.
 }
 \description{
-This function transforms objects of type \code{dist} (output from \code{stats::dist})
-or \code{dissimilarity} (output from \code{cluster::daisy}) into an Ypma dissimilarity matrix.
+Converts a `dist` object (including `cluster::daisy()` dissimilarities) into
+minimum-spanning-tree hop distances.
 }

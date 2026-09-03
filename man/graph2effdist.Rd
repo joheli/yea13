@@ -7,14 +7,15 @@
 graph2effdist(g, edge.attribute = NULL)
 }
 \arguments{
-\item{g}{An \code{igraph} object.}
+\item{g}{An `igraph` object.}
+
 \item{edge.attribute}{Optional edge attribute used as adjacency weights.}
 }
 \value{
 A square matrix with effective distances between nodes.
 }
 \description{
-Calculate effective distances between nodes of a graph.
+Calculate effective distances between nodes of a graph
 }
 \examples{
 graph2effdist(units_igraph, edge.attribute = "weight")

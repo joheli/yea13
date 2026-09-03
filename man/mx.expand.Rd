@@ -14,21 +14,23 @@ mx.expand(
 )
 }
 \arguments{
-\item{conversion.table}{A data.frame containting two columns; the first with id labels, the second with the names of rows (= names of columns) in square matrix \code{mx} (see below), to which it refers.}
+\item{conversion.table}{A data.frame containing two columns; the first with
+id labels and the second with row/column names in `mx`.}
 
-\item{mx}{A square numerical matrix with equal row and column names that the second column of \code{conversion.table} refers to.}
+\item{mx}{A square numeric matrix with identical row and column names.}
 
-\item{noise0}{A logical determining whether to add noise to zero values using function \code{zero.noise}. Defaults to TRUE.}
+\item{noise0}{Logical; add noise to off-diagonal zero values using
+[zero.noise()]? Defaults to `TRUE`.}
 
-\item{noise.lo}{A numerical passed to \code{zero.noise}, specifying the lower boundary of the random value to be inserted. Only used if \code{noise0} is TRUE.}
+\item{noise.lo, noise.hi}{Numeric bounds passed to [zero.noise()].}
 
-\item{noise.hi}{A numerical passed to \code{zero.noise}, specifying the upper boundary of the random value to be inserted. Only used if \code{noise0} is TRUE.}
-
-\item{...}{Further arguments passed to \code{zero.noise}.}
+\item{...}{Further arguments passed to [zero.noise()].}
 }
 \value{
-A matrix with id in \code{conversion.table} used as row/column names.
+A matrix with ids from `conversion.table` as row/column names.
 }
 \description{
-This function accepts a conversion table and a square matrix as input to return a new square matrix with changed row and column names referring to id labels in conversion table.
+This function accepts a conversion table and a square matrix as input to
+return a new square matrix with row and column names referring to the ids in
+the conversion table.
 }

@@ -4,16 +4,22 @@
 \alias{y.clust}
 \title{Identify putative clusters}
 \usage{
-y.clust(yd, hs = c(2, 4, 6), result = c("sizes", "clusters"))
+y.clust(yd, hs = c(2, 4, 6), result = c("sizes", "clusters"), p.value = 0.05)
 }
 \arguments{
 \item{yd}{A square Ypma dissimilarity matrix or a list of such matrices.}
+
 \item{hs}{Numeric heights at which hierarchical trees should be cut.}
-\item{result}{Return cluster-size thresholds (\code{"sizes"}) or cluster details (\code{"clusters"}).}
+
+\item{result}{Return cluster-size thresholds (`"sizes"`) or cluster details
+(`"clusters"`).}
+
+\item{p.value}{Numeric, calulate lower bound of permuted max. dissimilarity corresponding 
+to this value.}
 }
 \value{
 A data.frame describing clusters or permutation thresholds.
 }
 \description{
-Identify putative clusters.
+Identify putative clusters
 }

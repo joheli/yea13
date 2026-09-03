@@ -4,19 +4,27 @@
 \alias{cluster.search}
 \title{Search for putative clusters}
 \usage{
-cluster.search(d, e, tc, ic, uc, p.n, hs, ...)
+cluster.search(d, e, tc, ic, uc, p.n, hs, p.value = 0.05, ...)
 }
 \arguments{
 \item{d}{A data.frame containing id, time, unit and type columns.}
-\item{e}{A square effective-distance matrix for units in \code{d}.}
+
+\item{e}{A square effective-distance matrix for units in `d`.}
+
 \item{tc, uc, ic}{Character names or numeric positions of time, unit and id.}
+
 \item{p.n}{Number of permutations.}
+
 \item{hs}{Heights at which hierarchical trees are cut.}
-\item{...}{Arguments passed to \code{ypma.diss()}.}
+
+\item{p.value}{Numeric, p value passed to [y.clust()], see there.}
+
+\item{...}{Arguments passed to [ypma.diss()].}
 }
 \value{
 A list of data.frames, one for each significant putative cluster.
 }
 \description{
-Searches surveillance observations for clusters with unusually small combined spatial, type/genetic, and temporal Ypma dissimilarity.
+Searches surveillance observations for clusters with unusually small
+combined spatial, type/genetic, and temporal Ypma dissimilarity.
 }

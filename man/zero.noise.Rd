@@ -2,22 +2,20 @@
 % Please edit documentation in R/zero_noise.r
 \name{zero.noise}
 \alias{zero.noise}
-\title{Add random noise to zero values in square matrix}
+\title{Add random noise to zero values in a square matrix}
 \usage{
 zero.noise(x, lo = 0, hi = 0.01, exclude.diag = TRUE)
 }
 \arguments{
-\item{x}{A numerical square matrix.}
+\item{x}{A numeric square matrix.}
 
-\item{lo}{A numeric specifying the lower boundary of to be inserted random values (random values are generated with \code{\link{runif}}).}
+\item{lo, hi}{Numeric lower and upper bounds for uniform random values.}
 
-\item{hi}{A numeric specifying the upper boundary of to be inserted random values.}
-
-\item{exclude.diag}{A logical stating whether the diagonal values should be left alone; defaults to TRUE.}
+\item{exclude.diag}{Logical; keep diagonal values at zero?}
 }
 \value{
-A numerical square matrix with random noise added to zero values.
+A numeric square matrix with noise replacing zero values.
 }
 \description{
-This is a helper function used by \code{\link{mx.expand}}.
+Add random noise to zero values in a square matrix
 }

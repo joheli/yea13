@@ -2,12 +2,12 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' Minimum spanning tree
-#' 
-#' This is a C++ transcript of function \code{ape::mst} by Yvonnick Noel, Julien Claude, and Emmanuel Paradis, cf. \url{https://github.com/cran/ape/blob/master/R/mst.R}.
 #'
-#' @param d An object of type 'dist'.
-#' @param debug logical, specifying if intermediate steps should be printed out.
-#' @return An adjacency matrix belonging to class 'ape::mst'.
+#' C++ implementation based on `ape::mst`.
+#'
+#' @param d An object of class `dist` containing finite distances.
+#' @param debug Logical; print intermediate algorithm state.
+#' @return A symmetric adjacency matrix of class `mst`.
 #' @export
 mst <- function(d, debug = FALSE) {
     .Call(`_yea13_mst`, d, debug)

@@ -30,4 +30,4 @@ Suggests:
     ape (>= 5.8),
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-RoxygenNote: 7.3.2
+Config/roxygen2/version: 8.1.0

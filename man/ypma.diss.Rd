@@ -19,17 +19,27 @@ ypma.diss(
 }
 \arguments{
 \item{d}{A data.frame containing id, time, unit and type columns.}
-\item{e}{A square matrix with identical row and column names representing effective distances between units.}
-\item{tc, uc, ic}{Character names or numeric positions of the time, unit and id columns in \code{d}.}
-\item{dfun}{Distance function for type columns: \code{"dist"} or \code{"daisy"}.}
-\item{dfun.args}{A list of arguments passed to \code{dfun}.}
+
+\item{e}{A square matrix with identical row and column names representing
+effective distances between units.}
+
+\item{tc, uc, ic}{Character names or numeric positions of the time, unit and id
+columns in `d`.}
+
+\item{dfun}{Distance function for type columns: `"dist"` or `"daisy"`.}
+
+\item{dfun.args}{A list of arguments passed to `dfun`.}
+
 \item{p}{Logical; perform permutations?}
-\item{p.n}{Number of permutations when \code{p = TRUE}.}
-\item{n.cores}{Number of worker processes used for permutations. Defaults to one for portability; set a larger value explicitly for local runs.}
+
+\item{p.n}{Number of permutations when `p = TRUE`.}
+
+\item{n.cores}{Number of worker processes used for permutations. Defaults to
+one for portability; set a larger value explicitly for local runs.}
 }
 \value{
 A Ypma dissimilarity matrix, or a list of matrices for permutations.
 }
 \description{
-Calculate Ypma dissimilarities for type, time, and unit.
+Calculate Ypma dissimilarities for type, time, and unit
 }
